@@ -469,11 +469,11 @@ Send tokens to an account address
 chmod +x ./send-lovelaces.sh
 ```
 
-> Send tokens format
+> Send tokens format go
 ```
 send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} $(cat receiver_secret.key)
 ```
-
+> here are the steps below https://github.com/cliffc2/jormungandr-setup#send-tokens-to-another-account
 
 ---
 
