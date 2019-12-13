@@ -443,23 +443,46 @@ curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/mast
 > You can find the script here https://github.com/input-output-hk/jormungandr-qa/blob/master/scripts/createStakePool.sh
 
 
-
-
-
-
-
 >Change permissions (make executable +x)
 
-```chmod +x createAddress.sh```
+```
+chmod +x createAddress.sh
+```
 
 >Run the create address script
 
-```createAddress.sh account```
-
-
-Get tokens (testnet ADA from telegram group)
+```
+createAddress.sh account
+```
 
 ---
+
+Get tokens (testnet ADA from telegram group if faucet is out)
+---
+
+ https://testnet.iohkdev.io/en/cardano/shelley/tools/faucet/
+
+ ---
+ 
+Check your account address to see your token balance 
+---
+```
+jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:3100/api
+``` 
+
+---
+
+Delegate tokens to a stakepool (script)
+---
+
+
+> https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts 
+
+``` 
+delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK> 
+``` 
+
+
 Send tokens to an account address
 ---
 
@@ -478,15 +501,6 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
 ---
 
 
-Incentivized Testnet Stake Pool Registry
----
-> https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/blob/f9930f7c9eb8b4360472b3890bdaeb0ad1eb7743/README.md
-
-Create owner keys for your stake pool 
----
-```jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub cat owner.{prv,pub}```
-
----
 
 #  How to load Jormungandr from source code (Intermediate system administrator skill level)
 
@@ -869,19 +883,17 @@ jcli rest v0 message logs --host "http://127.0.0.1:3100/api
 
 
 
+
+ ---
+Incentivized Testnet Stake Pool Registry
 ---
+> https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/blob/f9930f7c9eb8b4360472b3890bdaeb0ad1eb7743/README.md
 
-Delegate tokens to a stakepool (script)
+Create owner keys for your stake pool 
 ---
+```jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub cat owner.{prv,pub}```
 
-
-> https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts 
-
-``` 
-delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK> 
-``` 
-
-
+---
 
 Create a Stake pool (key and cert) by hand
 ---
