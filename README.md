@@ -113,7 +113,7 @@ copy this node config.yaml for 0.8.0 (nightly)
 
 Configure .bash_profile file 
 ---
->Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder).
+>Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Gaffagnino 
 
 
 
@@ -420,8 +420,7 @@ https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts
  ```http://127.0.0.1:3100/api/v0/stake_pools```
 
 
-
->Here is the IOHK Zendesk reference https://iohk.zendesk.com/hc/en-us/categories/360002383814-Shelley-Networked-Testnet   
+  
 
 
 
@@ -439,7 +438,7 @@ Create your account address
 
 ```curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/master/scripts/createAddress.sh```
 
-> You can find other scripts here: https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts
+> You can find the script here https://github.com/input-output-hk/jormungandr-qa/blob/master/scripts/createStakePool.sh
 
 
 
