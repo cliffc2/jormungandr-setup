@@ -12,9 +12,9 @@
   * unzip file (drop them into the first jormungandr folder) 
   * create a file called config.yaml (or node-config.yaml)
   * edit your (config.yaml) computer's ip address port (like a telephone extension number)
-  * create a secret key, public key and account address (script)
   * start jormungandr testnet 
   * check the testnet node is in 'sync' 
+  * create a secret key, public key and account address (script)
   * get tokens from faucet (or telegram group)
   * send tokens to account
   * delegate stake to pool
@@ -113,7 +113,7 @@ copy this node config.yaml for 0.8.0 (nightly)
 
 Configure .bash_profile file 
 ---
->Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Gaffagnino 
+>Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Graffagnino https://gist.github.com/Chris-Graffagnino/4d1be0b88dcaa93440a81dcafdc47afd#create-node-configyaml
 
 
 
@@ -336,7 +336,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/
 
 Type each of the following commands in terminal
 ---
-> forked from Chris Gaffagnino Linux setup https://gist.github.com/Chris-Graffagnino/4d1be0b88dcaa93440a81dcafdc47afd#type-each-of-the-following-commands-in-terminal
+> forked from Chris Graffagnino Linux setup https://gist.github.com/Chris-Graffagnino/4d1be0b88dcaa93440a81dcafdc47afd#type-each-of-the-following-commands-in-terminal
 ```
 echo "export USERNAME='<YOUR USERNAME>'" >> ~/.bashrc
 ```
@@ -375,7 +375,7 @@ source ~/.bash_profile
 >Source config files make these new variables available in the terminal. FYI There's a command in .bash_profile that sources .bashrc 
 
 ```
-jdkflsjd
+ place holder
 ```
 
 
@@ -688,7 +688,8 @@ IT IS EXTREMELY IMPORTANT THAT YOU SAVE YOUR KEYS FOR FUTURE USE
 Get testnet ADA tokens (test-ADA)
 ---
  https://testnet.iohkdev.io/en/cardano/shelley/tools/faucet/
- 
+
+---
 Check your account address to see your token balance 
 ---
 ```
@@ -710,7 +711,7 @@ nano send-lovelaces.sh
 >now copy and paste into nano
 
 ```
-#!/bin/sh forked from chris gaffagnino
+#!/bin/sh forked from chris graffagnino
 
 # Disclaimer:
 #
@@ -721,11 +722,8 @@ nano send-lovelaces.sh
 #
 #  It also asumes that `jcli` is in the same folder with the script.
 #  The script works only for Account addresses type.
-#
-#  Usage
-#  ./send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} $(cat receiver_secret.key)
 
-#  Tutorials can be found here: https://iohk.zendesk.com/hc/en-us/categories/360002383814-Shelley-Networked-Testnet
+
 
 ### CONFIGURATION
 CLI="jcli"
@@ -875,7 +873,7 @@ exit 0
 > reference https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts 
 
 ---
-Check the message log to see tx 
+Check the message log to see the transaction
 ---
 ```
 jcli rest v0 message logs --host "http://127.0.0.1:3100/api
