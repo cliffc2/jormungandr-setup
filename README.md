@@ -152,6 +152,7 @@ nano ~/.bash_profile
 ```
 >Copy and paste the following into the .bash_profile file 
 ```
+#this is a fork so not all the simplified commands work yet
 export ARCHFLAGS="-arch x86_64"
 test -f ~/.bashrc && source ~/.bashrc
 
@@ -394,6 +395,10 @@ Send tokens to an account address (script)
 ---
 
 > Create or download send-lovelaces.sh script the make the file executable 
+```
+nano send-lovelaces.sh
+```
+>copy the 
 
 ```
 chmod +x ./send-lovelaces.sh
