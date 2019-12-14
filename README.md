@@ -67,21 +67,21 @@ Download the Jormungandr 0.8.0 OSX zip file
 mkdir -p ~/jormungandr     
 mkdir -p ~/storage 
 ```
->  This [tmp/jormungandr080] is declared in the config.yaml file
+>  This 'storage' location is declared in the .bashrc file
 ---
 
 
 
 
-Create and edit a new file called config.yaml
+Create and edit a new file called itn_rewards_v1-config.yaml
 ---
 
 ```
 cd jormungandr 
-nano config-080.yaml
+nano itn_rewards_v1-config.yaml
 ```  
 
->Copy the config.yaml below and open nano editor (or vscode) config needs to be in jormungandr folder - shortcuts for 
+>Copy the itn_rewards_v1-config.yaml below and open nano editor (or vscode) config needs to be in jormungandr folder - shortcuts for 
 copy (command+c) and paste (command+v) then save (control+o) and close nano (control+x) 
 
 
