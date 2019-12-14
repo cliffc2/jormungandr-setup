@@ -355,16 +355,25 @@ source ~/.bash_profile
 
 
 ---
-Start the Jormungandr Node 0.8.2 (nightly)
+Start the Jormungandr Node 0.8.2 
 ---
+>Genesis block hash for 0.8.2 itn_rewards_v1
+`8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
+```
+jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+```
+> Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
+
+
+
 
 ```
-jjormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
- 
+jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
 ```
 
+>Troubleshooting note: check for the latest genesis block hash and config.yaml path. Also check your ports to make sure they are calling the right number. Check your ip address and port (127.0.0.1:3100) 
 
->Troubleshooting note: check for the latest genesis block hash and config.yaml path. Also check your ports to make sure they are calling the right number. Check your ip address and port (127.0.0.1:3100) https://hydra.iohk.io/build/1497230/download/1/index.html
+https://hydra.iohk.io/build/1497230/download/1/index.html
 
 ---
 
