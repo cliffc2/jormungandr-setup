@@ -338,13 +338,9 @@ echo "export JORMUNGANDR_STORAGE_DIR='storage'" >> ~/.bashrc
 ```
 echo "export GENESIS_BLOCK_HASH='<BETA OR NIGHTLY GENESIS BLOCK HASH>'" >> ~/.bashrc
 ```
-> Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
-
->Genesis block hash for 0.8.2 itn_rewards_v1
-`8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
 
 
-> What did we just do?
+> Chris Graffagnino notes -What did we just do?
 "echo" essentially means "print to screen"
 "export" declares a variable in a special way, so that any shells that spawn from it inherit the variable.">>" means "take the output of the previous command and append it to the end of a file (.bashrc, in this case)
 
@@ -356,25 +352,19 @@ source ~/.bash_profile
 
 >Source config files make these new variables available in the terminal. FYI There's a command in .bash_profile that sources .bashrc 
 
-```
- place holder
-```
-
-
->Troubleshooting note - open a new terminal (command+N)
-
-
 
 
 ---
-Start the Jormungandr Node 0.8.0 (passive mode)
+Start the Jormungandr Node 0.8.2 (nightly)
 ---
+
 ```
-jormungandr --genesis-block-hash 65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839 --config config.yaml 
+jjormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+ 
 ```
 
 
->Troubleshooting note: check for the latest genesis block hash and config.yaml path. Also check your ports to make sure they are calling the right number. Check your ip address and port (127.0.0.1:3100) 
+>Troubleshooting note: check for the latest genesis block hash and config.yaml path. Also check your ports to make sure they are calling the right number. Check your ip address and port (127.0.0.1:3100) https://hydra.iohk.io/build/1497230/download/1/index.html
 
 ---
 
