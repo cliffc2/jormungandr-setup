@@ -357,6 +357,10 @@ chmod +x createAddress.sh
 ```
 createAddress.sh account
 ```
+>create address account with "addr" prefix 
+```
+jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
+```
 
 ---
 
