@@ -24,7 +24,7 @@
     * find the right [genesis block hash]() (add to .bashrc)
     * reload .bash_profile (.bashrc)
   * start jormungandr testnet 
-  * check the testnet status (is node in 'sync'?) 
+  * check the testnet status (is the jormungandr node in 'sync'?) 
   * if you want rewards from the incentivized testnet (itn)
       * if yes - goto [cardano-wallet (itn)](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-migrate-a-Byron-wallet-using-the-command-line)
         * create a 15 word password
@@ -86,7 +86,7 @@ nano itn_rewards_v1-config.yaml
 copy (command+c) and paste (command+v) then save (control+o) and close nano (control+x) 
 
 
-copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
+Copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
 ---
 ```
 {
@@ -137,10 +137,8 @@ copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
     "listen": "127.0.0.1:3100"
   }
 }
-
- 
 ```
->Troubleshooting - name your configs according to version so you can see them clearly - this storage is also separated from previous rc versions for refernce reasons
+>Troubleshooting - name your configs according to version so you can see them clearly - the storage location is separated from previous rc versions it will be declared in .bashrc
 
 Configure .bash_profile file 
 ---
@@ -157,6 +155,13 @@ nano ~/.bash_profile
 export ARCHFLAGS="-arch x86_64"
 test -f ~/.bashrc && source ~/.bashrc
 
+function start-itn() {
+    echo "$(jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH})"
+}
+
+function start-itn() {
+    echo "$(jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH})"
+}
 
 function stop() {
     echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
@@ -573,11 +578,16 @@ createAddress.sh account
 ```
 curl -L https://github.com/input-output-hk/cardano-wallet/releases/download/v2019-12-09/cardano-wallet-jormungandr-macos64-v2019-12-09.tar.gz | tar xz -C $HOME/.local/bin
 
+# Show help
 cardano-wallet -h
 
+# Generate 15 word mnemonic phrase
 cardano-wallet mnemonic generate
+
+# Restore the private key from 15 word mnemonic phrase
+cardano-wallet mnemonic reward-credentials
 ```
->For https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
+>For more information https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
 --- 
 
 > Create a secret key 
