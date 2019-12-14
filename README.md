@@ -54,7 +54,7 @@ Download the Jormungandr 0.8.0 OSX zip file
 --- 
 > View latest releases https://github.com/input-output-hk/jormungandr/releases/ 
 
-* look for jormungandr-v0.8.0-x86_64-apple-darwin.tar.gz 
+* look for jormungandr-v0.8.2-x86_64-apple-darwin.tar.gz 
 * download it
 * unzip the tar
 * open the "home" folder in finder (command+shift+H)
@@ -143,14 +143,14 @@ copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
 
 Configure .bash_profile file 
 ---
->Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Graffagnino https://gist.github.com/Chris-Graffagnino/4d1be0b88dcaa93440a81dcafdc47afd#create-node-configyaml
+>Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Graffagnino (linux) https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/tree/master/config
 
 
 
 ```
 nano ~/.bash_profile
 ```
->Copy and paste the following into the .bash_profile file
+>Copy and paste the following into the .bash_profile file 
 ```
 export ARCHFLAGS="-arch x86_64"
 test -f ~/.bashrc && source ~/.bashrc
@@ -228,140 +228,92 @@ Configure .bashrc
 ```
 nano ~/.bashrc
 ``` 
->Copy and paste the following into .bashrc
+>Copy and paste the following into .bashrc 
+
 
 ```
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+export ARCHFLAGS="-arch x86_64"
+test -f ~/.bashrc && source ~/.bashrc
 
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
-
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        # We have color support; assume it's compliant with Ecma-48
-        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-        # a case would tend to support setf rather than setaf.)
-        color_prompt=yes
-    else
-        color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# colored vars
-GREEN=$(printf "\033[0;32m")
-
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
-
-function parse_git_branch() {
-    BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-    if [ ! "${BRANCH}" == "" ]
-    then
-        echo "(${BRANCH})"
-    else
-        echo ""
-    fi
+function start() {
+    GREEN=$(printf "\033[0;32m")
+    nohup jormungandr --config ~/files/node-config.yaml --genesis-block-hash $GENESIS_BLOCK_HASH >> ~/logs/node.out 2>&1 &
+    echo ${GREEN}$(ps | grep jormungandr)
 }
 
-# Comment the following line if you prefer a prompt *not* include git branch info
-export PS1="\[\e[36m\]\w\[\e[m\]\[\e[35m\] \`parse_git_branch\`\[\e[m\] \[\e[36m\]:\[\e[m\] "
+function stop() {
+    echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
+}
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/bin/python3"
+function stats() {
+    echo "$(jcli rest v0 node stats get -h http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function bal() {
+    echo "$(jcli rest v0 account get $(cat ~/files/receiver_account.txt) -h  http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function faucet() {
+    echo "$(curl -X POST https://faucet.${CHAIN_NAME}.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/files/receiver_account.txt))"
+}
+
+function get_ip() {
+    echo "${PUBLIC_IP_ADDR}"
+}
+
+function get_pid() {
+    ps auxf | grep jor
+}
+
+function memory() {
+    top -o %MEM
+}
+
+function nodes() {
+    nodes="$(netstat -tupan | grep jor | grep EST | cut -c 1-80)"
+    total="$(netstat -tupan | grep jor | grep EST | cut -c 1-80 | wc -l)"
+    printf "%s\n" "${nodes}" "----------" "Total:" "${total}"
+}
+
+function num_open_files() {
+    echo "Calculating number of open files..."
+    echo "$(lsof -u $(whoami) | wc -l)"
+}
+
+function is_pool_visible() {
+    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat ~/files/stake_pool.id))
+}
+
+function delegate() {
+    echo "$(~/files/delegate-account.sh $(cat ~/files/stake_pool.id) ${REST_PORT} $(cat ~/files/receiver_secret.key))"
+}
+
+function start_leader() {
+    GREEN=$(printf "\033[0;32m")
+    nohup jormungandr --config ~/files/node-config.yaml --secret ~/files/node_secret.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH} >> ~/logs/node.out 2>&1 &
+    echo "${GREEN}$(ps | grep jormungandr)"
+}
+
+function logs() {
+    tail ~/logs/node.out
+}
+
+function empty_logs() {
+    > ~/logs/node.out
+}
+
+function leader_logs() {
+    echo "Has this node been scheduled to be leader?"
+    echo "$(jcli rest v0 leaders logs get -h http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function pool_stats() {
+    echo "$(jcli rest v0 stake-pool get $(cat ~/files/stake_pool.id) -h http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function problems() {
+    grep -E -i 'cannot|stuck|exit|unavailable' ~/logs/node.out
+}
 ```
 
 Type each of the following commands in terminal
