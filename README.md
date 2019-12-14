@@ -235,23 +235,23 @@ Type each of the following commands in terminal
 ```
 echo "export USERNAME='<YOUR USERNAME>'" >> ~/.bashrc
 ```
-> note - the terminal prompt has `<YOUR USERNAME>` or you can list the users with the command ```ls /users ```
+> note - open a new terminal prompt (command+N) replace `<YOUR USERNAME>` with your mac's username. you can find the username with the command ```ls /users ```
 ```
 echo "export PUBLIC_IP_ADDR='<YOUR PUBLIC IP ADDRESS>'" >> ~/.bashrc
 ```
-> you can find the `<YOUR PUBLIC IP ADDRESS>` inet  with the command ```ifconfig``` look for the number set after "inet" eg. 12.18.43.10
+> replace `<YOUR PUBLIC IP ADDRESS>` with your inet ip address. use the command ```ifconfig``` look for the number set after "inet" eg. 12.18.43.10
 ```
 echo "export REST_PORT='3100'" >> ~/.bashrc
 ```
-> This is the port number in the config.yaml - 3100  
+> This is a common port number in the node configs yaml - 3100 - being used by most of the admins 
 ```
 echo "export JORMUNGANDR_STORAGE_DIR='storage'" >> ~/.bashrc
 ```
-> this matches the storage location in the config.yaml  
+> copy this and enter. this matches the storage location in the common node configs 
 ```
-echo "export GENESIS_BLOCK_HASH='<BETA OR NIGHTLY GENESIS BLOCK HASH>'" >> ~/.bashrc
+echo "export GENESIS_BLOCK_HASH='<EXAMPLE-GBLOCK-HASH>'" >> ~/.bashrc
 ```
-
+>replace `<EXAMPLE-GBLOCK-HASH>` with the itn of nightly hash (see below)
 
 > Chris Graffagnino notes -What did we just do?
 "echo" essentially means "print to screen"
@@ -263,7 +263,7 @@ Load the new .bash_profile and .bashrc
 source ~/.bash_profile
 ```
 
->Source config files make these new variables available in the terminal. FYI There's a command in .bash_profile that sources .bashrc 
+>source command loads new variables so you can use them in the terminal. FYI There's a command in .bash_profile that points to .bashrc 
 
 
 
@@ -292,8 +292,12 @@ https://hydra.iohk.io/build/1497230/download/1/index.html
 
 Check the node - is it in 'sync'?
 ---
-> Open a new Terminal > shell > new window (command+N)
+> Open a new Terminal > shell > new window (command+N) if the .bash_profile is written correctly you can use stats 
 
+```
+ stats 
+ ``` 
+ >it would be a shortcut for the jcli rest v0 command below
  ```
  jcli rest v0 node stats get -h http://127.0.0.1:3100/api
  ``` 
