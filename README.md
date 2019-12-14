@@ -348,7 +348,7 @@ Create your account address
 curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/master/scripts/createAddress.sh
 ```
 
-> OR you can find the script here https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/tree/master/scripts
+> OR if you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed. you can find the script here https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
 
 
 >Change permissions (make executable +x)
