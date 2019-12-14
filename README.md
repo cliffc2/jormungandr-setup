@@ -633,7 +633,7 @@ cardano-wallet mnemonic generate
 cardano-wallet mnemonic reward-credentials
 ```
 
-Copy and paste your cardano-wallet secret key here
+Copy and paste your cardano-wallet secret key to a file called receiver_secret.key (KEEP THIS SAFE)
 ---
 ```
 nano receiver_secret.key
