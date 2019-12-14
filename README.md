@@ -155,16 +155,9 @@ nano ~/.bash_profile
 export ARCHFLAGS="-arch x86_64"
 test -f ~/.bashrc && source ~/.bashrc
 
-if [ $USER = $USERNAME ]; then
-  if [ $SHELL = "/bin/bash" ]; then
-    ulimit -n 4096
-  fi
-fi
 
-function start_node() {
-    GREEN=$(printf "\033[0;32m")
-    nohup jormungandr --config node-config.yaml --genesis-block-hash $GENESIS_BLOCK_HASH >> logs/node.out 2>&1 &
-    echo ${GREEN}$(ps | grep jormungandr)
+function stop() {
+    echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
 }
 
 function stats() {
@@ -177,84 +170,6 @@ function bal() {
 
 function faucet() {
     echo "$(curl -X POST https://faucet.beta.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/jormungandr/receiver_account.txt))"
-}
-
-function get_ip() {
-    echo "${PUBLIC_IP_ADDR}"
-}
-
-function memory() {
-    top -o %MEM
-}
-
-function nodes() {
-    nodes="$(netstat -tupan | grep jor | grep EST | cut -c 1-80)"
-    total="$(netstat -tupan | grep jor | grep EST | cut -c 1-80 | wc -l)"
-    printf "%s\n" "${nodes}" "----------" "Total:" "${total}"
-}
-
-function num_open_files() {
-    echo "How many open files?"
-    echo "$(lsof -u $(whoami) | wc -l)"
-}
-
-function is_pool_visible() {
-    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat stake_pool.id))
-}
-
-function create_stake_pool() {
-    echo "$(./createStakePool.sh ${REST_PORT} $(cat receiver_secret.key))"
-}
-
-function delegate_account() {
-    echo "$(./delegate-account.sh $(cat stake_pool.id) ${REST_PORT} $(cat receiver_secret.key))"
-}
-
-function start_leader_node() {
-    GREEN=$(printf "\033[0;32m")
-    nohup jormungandr --config node-config.yaml --secret node_secret.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH} >> logs/node.out 2>&1 &
-    echo "${GREEN}$(ps | grep jormungandr)"
-}
-
-function leader_logs() {
-    echo "Has this node been scheduled to be leader?"
-    echo "$(jcli rest v0 leaders logs get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-```
----
-
-Configure .bashrc
----
-```
-nano ~/.bashrc
-``` 
->Copy and paste the following into .bashrc 
-
-
-```
-export ARCHFLAGS="-arch x86_64"
-test -f ~/.bashrc && source ~/.bashrc
-
-function start() {
-    GREEN=$(printf "\033[0;32m")
-    nohup jormungandr --config ~/files/node-config.yaml --genesis-block-hash $GENESIS_BLOCK_HASH >> ~/logs/node.out 2>&1 &
-    echo ${GREEN}$(ps | grep jormungandr)
-}
-
-function stop() {
-    echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function stats() {
-    echo "$(jcli rest v0 node stats get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function bal() {
-    echo "$(jcli rest v0 account get $(cat ~/files/receiver_account.txt) -h  http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function faucet() {
-    echo "$(curl -X POST https://faucet.${CHAIN_NAME}.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/files/receiver_account.txt))"
 }
 
 function get_ip() {
@@ -281,40 +196,37 @@ function num_open_files() {
 }
 
 function is_pool_visible() {
-    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat ~/files/stake_pool.id))
+    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat stake_pool.id))
+}
+
+function create_stake_pool() {
+    echo "$(createStakePool.sh ${REST_PORT} $(cat receiver_secret.key))"
 }
 
 function delegate() {
-    echo "$(~/files/delegate-account.sh $(cat ~/files/stake_pool.id) ${REST_PORT} $(cat ~/files/receiver_secret.key))"
+    echo "$(delegate-account.sh $(cat stake_pool.id) ${REST_PORT} $(cat receiver_secret.key))"
 }
 
-function start_leader() {
-    GREEN=$(printf "\033[0;32m")
-    nohup jormungandr --config ~/files/node-config.yaml --secret ~/files/node_secret.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH} >> ~/logs/node.out 2>&1 &
-    echo "${GREEN}$(ps | grep jormungandr)"
-}
-
-function logs() {
-    tail ~/logs/node.out
-}
-
-function empty_logs() {
-    > ~/logs/node.out
-}
 
 function leader_logs() {
     echo "Has this node been scheduled to be leader?"
     echo "$(jcli rest v0 leaders logs get -h http://127.0.0.1:${REST_PORT}/api)"
 }
 
-function pool_stats() {
-    echo "$(jcli rest v0 stake-pool get $(cat ~/files/stake_pool.id) -h http://127.0.0.1:${REST_PORT}/api)"
+function problems() {
+    grep -E -i 'cannot|stuck|exit|unavailable' logs/node.out
 }
 
-function problems() {
-    grep -E -i 'cannot|stuck|exit|unavailable' ~/logs/node.out
-}
+#---------- you should see other paths
 ```
+---
+
+Configure .bashrc
+---
+```
+nano ~/.bashrc
+``` 
+
 
 Type each of the following commands in terminal
 ---
@@ -381,11 +293,15 @@ Check the node - is it in 'sync'?
 ---
 > Open a new Terminal > shell > new window (command+N)
 
- ```jcli rest v0 node stats get -h http://127.0.0.1:3100/api``` 
+ ```
+ jcli rest v0 node stats get -h http://127.0.0.1:3100/api
+ ``` 
 
 >Check the node stats (same as jcli rest v0 node stats command)
 
-```curl http://127.0.0.1:3100/api/v0/node/stats```
+```
+curl http://127.0.0.1:3100/api/v0/node/stats
+```
 
 ---
 
@@ -394,11 +310,15 @@ Delegate your tokens to a stakepool
 >If you are not operating a stakepool then delegate
 https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts 
 
-``` delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK> ```
+``` 
+delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK> 
+```
 
-> View the stakepools in your browser when running
+> View the stakepools in your firefox browser (json format) when running
 
- ```http://127.0.0.1:3100/api/v0/stake_pools```
+ ```
+ http://127.0.0.1:3100/api/v0/stake_pools
+ ```
 
 
   
@@ -408,7 +328,9 @@ https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts
 
 Check your fee settings
 ---
-```jcli rest v0 settings get -h http://127.0.0.1:3100/api``` 
+```
+jcli rest v0 settings get -h http://127.0.0.1:3100/api
+``` 
 
 
 
@@ -421,7 +343,7 @@ Create your account address
 curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/master/scripts/createAddress.sh
 ```
 
-> You can find the script here https://github.com/input-output-hk/jormungandr-qa/blob/master/scripts/createStakePool.sh
+> OR you can find the script here https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/tree/master/scripts
 
 
 >Change permissions (make executable +x)
@@ -949,7 +871,6 @@ Other tools and commands
 |Shutdown a Node (FYI) |```jcli rest v0 shutdown get -h http://127.0.0.1:3100/api```|
 | How to stop the command line if | (ctrl)+c |
 |ulimit error |```launchctl limit maxfiles``` https://forum.aeternity.com/t/solved-problems-setting-up-a-node-on-osx-mojave/1678 |
-|Run debug |```jormungandr --genesis-block-hash check4thelatestgenesisblock3 --config config.yaml --log-level=debug``` |
 |Find your public ip address|```ifconfig```|
 
 List envronment variables
