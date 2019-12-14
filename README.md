@@ -1,9 +1,10 @@
 
 # How to load Jormungandr 0.8.x on Mac OSX 
-> Dec 14, cliffc2 
+> Dec 14, cliffc2
 
 * To do list (overview)
   * create github account
+  * join telegram group
   * download vscode
   * load sqlite (if not loaded - for blockchain database)
   * configure .bash_profile and .bashrc
@@ -17,10 +18,10 @@
   * make 2 folders (in terminal or finder)
     * jormungandr (inside home directory folder)
     * storage (inside home directory folder)
-  * create a file called config.yaml (in jormungandr folder)
-    * edit (copy and paste) your (config.yaml) and 
+  * create a config file .yaml (in jormungandr folder)
+    * edit (copy and paste) your (eg. config.yaml) and 
     * change computer's ip address port number to 3100 
-    * find the right genesis block (add to .bashrc)
+    * find the right genesis block hash (add to .bashrc)
     * reload .bash_profile (.bashrc)
   * start jormungandr testnet 
   * check the testnet status (is node in 'sync'?) 
@@ -32,12 +33,12 @@
         * download script
         * change permission
         * run script
-  * if you do not want rewards 
-        * create a random secret key
-        * public key
-        * and account address
+  * if you do not want rewards and want to build from scratch (nightly)
+      * create a secret key
+      * create a public key 
+      * create an account address
   * then get tokens from faucet (or telegram group)
-  * check your balance
+  * check your account balance
   * if balance is (+) send test ada tokens to another account address
   * delegate to stakepool
   * create stake pool keys (4)
@@ -217,8 +218,6 @@ function leader_logs() {
 function problems() {
     grep -E -i 'cannot|stuck|exit|unavailable' logs/node.out
 }
-
-#---------- you should see other paths
 ```
 ---
 
@@ -233,9 +232,9 @@ Type each of the following commands in terminal
 ---
 > forked from Chris Graffagnino Linux setup https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs
 ```
-echo "export USERNAME='<YOUR USERNAME>'" >> ~/.bashrc
+echo "export USERNAME='<Replace this with your USERNAME>'" >> ~/.bashrc
 ```
-> note - open a new terminal prompt (command+N) replace `<YOUR USERNAME>` with your mac's username. you can find the username with the command ```ls /users ```
+> Open a new terminal prompt (command+N) replace `<YOUR USERNAME>` with your mac's username. you can find the username with the command ```ls /users ```
 ```
 echo "export PUBLIC_IP_ADDR='<YOUR PUBLIC IP ADDRESS>'" >> ~/.bashrc
 ```
@@ -268,31 +267,32 @@ source ~/.bash_profile
 
 
 ---
-Start the Jormungandr Node 0.8.2 
+Start the Jormungandr Node 0.8.2 (itn or nightly)
 ---
->Genesis block hash for 0.8.2 itn_rewards_v1
-`8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
+>Check for the latest genesis block hash and config ".yaml". The paths if working correctly will use the .bash_profile functions to shorten the commands and environment variables. Also check your ports to make sure they are calling the right number (like phone extentions). Check your ip address and port (eg. 127.0.0.1:3100)
+
+This is the command to start Jormungandr with Daedalus / Yoroi rewards
 ```
 jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
 ```
-> Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
+>Genesis block hash for 0.8.2 itn_rewards_v1
+`8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
 
-
-
-
+This is the command to start Jormungandr without Daedalus / Yoroi rewards 
 ```
 jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
 ```
+> Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
 
 >Troubleshooting note: check for the latest genesis block hash and config.yaml path. Also check your ports to make sure they are calling the right number. Check your ip address and port (127.0.0.1:3100) 
 
-https://hydra.iohk.io/build/1497230/download/1/index.html
+
 
 ---
 
 Check the node - is it in 'sync'?
 ---
-> Open a new Terminal > shell > new window (command+N) if the .bash_profile is written correctly you can use stats 
+> Open a new Terminal > Shell > New window (command+N) if the .bash_profile is written correctly you can use stats 
 
 ```
  stats 
@@ -327,7 +327,7 @@ delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK>
 
 
   
-
+---
 
 
 
@@ -340,17 +340,23 @@ jcli rest v0 settings get -h http://127.0.0.1:3100/api
 
 
 ---
-Create your account address 
+Create your account address (script)
 ---
+
+>If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed. You can find the script here 
+https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
+
+
+
+
+> For more information refer to this https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
+
+
 >Download this `createAddress.sh` script (not recognized by Daedalus or Yoroi)
 
 ```
 curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/master/scripts/createAddress.sh
 ```
-
-> OR if you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed. you can find the script here https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
-
-
 >Change permissions (make executable +x)
 
 ```
@@ -362,7 +368,7 @@ chmod +x createAddress.sh
 ```
 createAddress.sh account
 ```
->create address account with "addr" prefix 
+> To manually create an account address with the "addr" prefix 
 ```
 jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
 ```
@@ -398,11 +404,13 @@ delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK>
 Send tokens to an account address (script)
 ---
 
-> Create or download send-lovelaces.sh script the make the file executable 
+> Create send-lovelaces.sh script 
 ```
 nano send-lovelaces.sh
 ```
->copy the 
+>copy and paste the send-lovelaces code
+
+> change permissions to make the file executable 
 
 ```
 chmod +x ./send-lovelaces.sh
@@ -896,7 +904,7 @@ List envronment variables
 
 
 
-Check the node statistics
+Check the node stats
 ---
 ```curl http://127.0.0.1:3100/api/v0/node/stats```
 
@@ -946,6 +954,5 @@ Incentivized Testnet Stake Pool Registry
 https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/blob/f9930f7c9eb8b4360472b3890bdaeb0ad1eb7743/README.md
 
 
-Cardano-wallet (to be recognized by Daedalus and Yoroi you need to get a secret key from the cardano-wallet)
-https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
+
 
