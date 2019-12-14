@@ -1,5 +1,5 @@
 
-# How to load Jormungandr 0.8.X on Mac OSX 
+# How to load Jormungandr 0.8.x on Mac OSX 
 > Dec 14, cliffc2 
 
 * To do list (overview)
@@ -50,7 +50,7 @@
 > IOHK setup references https://iohk.zendesk.com/hc/en-us
   
 
-Download the Jormungandr 0.8.0 OSX zip file
+Download the Jormungandr 0.8.x OSX zip file
 --- 
 > View latest releases https://github.com/input-output-hk/jormungandr/releases/ 
 
@@ -496,8 +496,9 @@ echo $PATH
 > https://explainshell.com/explain?cmd=echo+%24PATH
 
 ---
-Download Jormungandr 
+Download Jormungandr from IOHK github
 ---
+>Check out the latest tags https://github.com/input-output-hk/jormungandr/releases/latest
 
 ``` 
 git clone --recurse-submodules https://github.com/input-output-hk/jormungandr 
@@ -839,12 +840,13 @@ Get your stake pool cert
     --owner $(cat owner_key.pub) > stake_pool.cert
 
 
-How to update Jormungandr version (from source) with git
+How to update Jormungandr version (from source) with git command
 ---
 
 | Git something | OSX Terminal Command |
 | ------------- | ------------- |
-| Load new version  | ``` git checkout v0.x.x ```  |
+| Load new version  | ``` git checkout v0.8.x ```  |
+||```git checkout tags/<latest release tag>```|
 | Copy from Github  | ```git pull``` |
 | Check submodules  | ```git submodule update --init --recursive```|
 | Clean (Optional) |``cargo clean ``|
