@@ -65,7 +65,7 @@ Download the Jormungandr 0.8.0 OSX zip file
 
 ```
 mkdir -p ~/jormungandr     
-mkdir -p ~/tmp/jormungandr080 
+mkdir -p ~/storage 
 ```
 >  This [tmp/jormungandr080] is declared in the config.yaml file
 ---
