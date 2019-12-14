@@ -1,25 +1,54 @@
 
-# How to load Jormungandr 0.8.0 on Mac OSX 
-> From the binaries (zip file) - beginner skill level
+# How to load Jormungandr 0.8.X on Mac OSX 
+> Dec 14, cliffc2 
 
-* To do list 
+* To do list (overview)
   * create github account
-  * configure bash_profile
-  * download zip file for osx 
+  * download vscode
+  * load sqlite (if not loaded - for blockchain database)
+  * configure .bash_profile and .bashrc
+  * if you want to download zip file for osx then    
+      * unzip tar file 
+      * drag and drop in jormungandr folder goto make 2 folders
+  * if you want download from source then 
+      * install Rust
+      * build jormungandr program from source (using the cargo command)
+      * build jcli program from source (using the cargo command)
   * make 2 folders (in terminal or finder)
-    * jormungandr (inside home folder)
-    * tmp/jormungandr (temp storage inside the jormungandr folder)
-  * unzip file (drop them into the first jormungandr folder) 
-  * create a file called config.yaml (or node-config.yaml)
-  * edit your (config.yaml) computer's ip address port (like a telephone extension number)
+    * jormungandr (inside home directory folder)
+    * storage (inside home directory folder)
+  * create a file called config.yaml (in jormungandr folder)
+    * edit (copy and paste) your (config.yaml) and 
+    * change computer's ip address port number to 3100 
+    * find the right genesis block (add to .bashrc)
+    * reload .bash_profile (.bashrc)
   * start jormungandr testnet 
-  * check the testnet node is in 'sync' 
-  * create a secret key, public key and account address (script)
-  * get tokens from faucet (or telegram group)
-  * send tokens to account
-  * delegate stake to pool
+  * check the testnet status (is node in 'sync'?) 
+  * if you want rewards from the incentivized testnet (itn)
+      * if yes - goto cardano-wallet (itn)
+        * create a 15 word password
+        * create a secret key from 15 word 
+      * if no - just create it from a script
+        * download script
+        * change permission
+        * run script
+  * if you do not want rewards 
+        * create a random secret key
+        * public key
+        * and account address
+  * then get tokens from faucet (or telegram group)
+  * check your balance
+  * if balance is (+) send test ada tokens to another account address
+  * delegate to stakepool
+  * create stake pool keys (4)
+  * create stake pool certificate from stake pool keys
+  * get node id
+  * create your owner keys
+  * register your stakepool for incentives
 
-
+  
+> IOHK setup references https://iohk.zendesk.com/hc/en-us
+  
 
 Download the Jormungandr 0.8.0 OSX zip file
 --- 
@@ -483,7 +512,7 @@ delegate-account.sh <STAKE_POOL_ID> <REST-LISTEN-PORT> <ACCOUNT-SK>
 ``` 
 
 
-Send tokens to an account address
+Send tokens to an account address (script)
 ---
 
 > Create or download send-lovelaces.sh script the make the file executable 
@@ -688,7 +717,9 @@ IT IS EXTREMELY IMPORTANT THAT YOU SAVE YOUR KEYS FOR FUTURE USE
 Get testnet ADA tokens (test-ADA)
 ---
  https://testnet.iohkdev.io/en/cardano/shelley/tools/faucet/
-
+```
+curl -X POST https://faucet.faucet.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/files/receiver_account.txt)
+```
 ---
 Check your account address to see your token balance 
 ---
@@ -702,6 +733,8 @@ Send tokens to another account
 
 ```
 send-lovelaces.sh <ADDRESS> <AMOUNT> <REST-LISTEN-PORT> <SOURCE-SK>
+
+send-lovelaces.sh addr1sak47... 2000000 ${REST_PORT} $(cat receiver_secret.key)
 ```
 >open a new file in nano called send-lovelaces.sh
 
