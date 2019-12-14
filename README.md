@@ -318,7 +318,7 @@ function problems() {
 
 Type each of the following commands in terminal
 ---
-> forked from Chris Graffagnino Linux setup https://gist.github.com/Chris-Graffagnino/4d1be0b88dcaa93440a81dcafdc47afd#type-each-of-the-following-commands-in-terminal
+> forked from Chris Graffagnino Linux setup https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs
 ```
 echo "export USERNAME='<YOUR USERNAME>'" >> ~/.bashrc
 ```
@@ -326,22 +326,22 @@ echo "export USERNAME='<YOUR USERNAME>'" >> ~/.bashrc
 ```
 echo "export PUBLIC_IP_ADDR='<YOUR PUBLIC IP ADDRESS>'" >> ~/.bashrc
 ```
-> you can find the `<YOUR PUBLIC IP ADDRESS>` inet 192.168.43.102 with the command ```ifconfig``` look for the number set after "inet" 
+> you can find the `<YOUR PUBLIC IP ADDRESS>` inet  with the command ```ifconfig``` look for the number set after "inet" eg. 12.18.43.10
 ```
 echo "export REST_PORT='3100'" >> ~/.bashrc
 ```
 > This is the port number in the config.yaml - 3100  
 ```
-echo "export JORMUNGANDR_STORAGE_DIR='/tmp/jormungandr080'" >> ~/.bashrc
+echo "export JORMUNGANDR_STORAGE_DIR='storage'" >> ~/.bashrc
 ```
 > this matches the storage location in the config.yaml  
 ```
 echo "export GENESIS_BLOCK_HASH='<BETA OR NIGHTLY GENESIS BLOCK HASH>'" >> ~/.bashrc
 ```
-> Genesis block hash for 0.8.0 nightly `65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839`
+> Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
 
->Genesis block hash for 0.7.0 beta
-`27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29`
+>Genesis block hash for 0.8.2 itn_rewards_v1
+`8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
 
 
 > What did we just do?
