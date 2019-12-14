@@ -3,30 +3,30 @@
 > Dec 14, cliffc2
 
 * To do list (overview)
-  * create github account
+  * [create github account](https://github.com/)
   * join telegram group
-  * download vscode
+  * [download vscode](https://code.visualstudio.com/)
   * load sqlite (if not loaded - for blockchain database)
   * configure .bash_profile and .bashrc
-  * if you want to download zip file for osx then    
-      * unzip tar file 
-      * drag and drop in jormungandr folder goto make 2 folders
+  * if you want to [download the latest zip(tar) file for osx](https://github.com/input-output-hk/jormungandr/releases) then  
+      * unzip tar file in your download folder
+      * drag and drop files into you jormungandr folder goto make 2 folders
   * if you want download from source then 
-      * install Rust
+      * [install Rust](https://www.rust-lang.org/tools/install)
       * build jormungandr program from source (using the cargo command)
       * build jcli program from source (using the cargo command)
   * make 2 folders (in terminal or finder)
     * jormungandr (inside home directory folder)
     * storage (inside home directory folder)
-  * create a config file .yaml (in jormungandr folder)
-    * edit (copy and paste) your (eg. config.yaml) and 
+  * create a node config ".yaml" (in jormungandr folder)
+    * edit (copy and paste) your (eg. config ".yaml") and 
     * change computer's ip address port number to 3100 
-    * find the right genesis block hash (add to .bashrc)
+    * find the right [genesis block hash]() (add to .bashrc)
     * reload .bash_profile (.bashrc)
   * start jormungandr testnet 
   * check the testnet status (is node in 'sync'?) 
   * if you want rewards from the incentivized testnet (itn)
-      * if yes - goto cardano-wallet (itn)
+      * if yes - goto [cardano-wallet (itn)](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-migrate-a-Byron-wallet-using-the-command-line)
         * create a 15 word password
         * create a secret key from 15 word 
       * if no - just create it from a script
@@ -569,10 +569,15 @@ createAddress.sh account
 
 
 
->To be recognized by Daedalus and Yoroi you need to get a secret key from the cardano-wallet 
+>To be recognized by Daedalus and Yoroi you need to get a secret key from the cardano-wallet https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
+```
+curl -L https://github.com/input-output-hk/cardano-wallet/releases/download/v2019-12-09/cardano-wallet-jormungandr-macos64-v2019-12-09.tar.gz | tar xz -C $HOME/.local/bin
 
- https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
+cardano-wallet -h
 
+cardano-wallet mnemonic generate
+```
+>For https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
 --- 
 
 > Create a secret key 
