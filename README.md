@@ -263,7 +263,7 @@ Load the new .bash_profile and .bashrc
 source ~/.bash_profile
 ```
 
->source command loads new variables so you can use them in the terminal. FYI There's a command in .bash_profile that points to .bashrc 
+>The source command loads new variables so you can use them in the terminal. FYI There's a command in .bash_profile that points to .bashrc 
 
 
 
@@ -302,7 +302,7 @@ Check the node - is it in 'sync'?
  jcli rest v0 node stats get -h http://127.0.0.1:3100/api
  ``` 
 
->Check the node stats (same as jcli rest v0 node stats command)
+>or check the node stats with curl (same as jcli rest v0 node stats command)
 
 ```
 curl http://127.0.0.1:3100/api/v0/node/stats
@@ -342,7 +342,7 @@ jcli rest v0 settings get -h http://127.0.0.1:3100/api
 ---
 Create your account address 
 ---
->Download this ```createAddress.sh``` script (not recognized by Daedalus or Yoroi)
+>Download this `createAddress.sh` script (not recognized by Daedalus or Yoroi)
 
 ```
 curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/master/scripts/createAddress.sh
