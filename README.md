@@ -151,12 +151,12 @@ nano ~/.bash_profile
 ```
 >Copy and paste the following into the .bash_profile file 
 ```
-#this is a fork so not all the simplified commands work yet
+#this is a fork so not all of the simplified commands work yet
 export ARCHFLAGS="-arch x86_64"
 test -f ~/.bashrc && source ~/.bashrc
 
-function start-itn() {
-    echo "$(jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH})"
+function start-ni() {
+    echo "$(jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH})"
 }
 
 function start-itn() {
@@ -274,7 +274,7 @@ source ~/.bash_profile
 ---
 Start the Jormungandr Node 0.8.2 (itn or nightly)
 ---
->Check for the latest genesis block hash and config ".yaml". The paths if working correctly will use the .bash_profile functions to shorten the commands and environment variables. Also check your ports to make sure they are calling the right number (like phone extentions). Check your ip address and port (eg. 127.0.0.1:3100)
+>Check for the latest genesis block hashes and recent configs ".yaml". The paths if working correctly will use the .bash_profile functions to shorten the commands and environment variables. Also check your ports to make sure they are calling the right number (like phone extentions). Check your ip address and port (eg. 127.0.0.1:3100)
 
 This is the command to start Jormungandr with Daedalus / Yoroi rewards
 ```
@@ -345,17 +345,46 @@ jcli rest v0 settings get -h http://127.0.0.1:3100/api
 
 
 ---
-Create your account address (script)
+Create your account address (with incentives)
 ---
 
->If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed. You can find the script here 
+>If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed - on the 0.8.2 itn blockchain
+```
+mkdir ~/.local/bin
+
+curl -L https://github.com/input-output-hk/cardano-wallet/releases/download/v2019-12-09/cardano-wallet-jormungandr-macos64-v2019-12-09.tar.gz | tar xz -C $HOME/.local/bin
+
+# Show help
+cardano-wallet -h
+
+# Generate 15 word mnemonic phrase
+cardano-wallet mnemonic generate
+
+# Restore the private key from 15 word mnemonic phrase
+cardano-wallet mnemonic reward-credentials
+
+# Create a secret key file and copy and paste to nano editor
+nano receiver_secret.key
+
+```
+
+>You can find the script here 
 https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
 
 
 
 
 > For more information refer to this https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
+---
 
+Create your account address (script without incentives)
+---
+
+> Create a secret key (from scratch)
+
+ ```
+ jcli key generate --type=Ed25519Extended > receiver_secret.key
+ ```
 
 >Download this `createAddress.sh` script (not recognized by Daedalus or Yoroi)
 
@@ -368,14 +397,17 @@ curl -sLOJ https://raw.githubusercontent.com/input-output-hk/jormungandr-qa/mast
 chmod +x createAddress.sh
 ```
 
->Run the create address script
+>Run the create account address script
 
 ```
 createAddress.sh account
 ```
-> To manually create an account address with the "addr" prefix 
+
+To manually create an account address with the "addr" prefix 
+---
+>
 ```
-jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
+jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account-addr082.txt
 ```
 
 ---
@@ -550,7 +582,18 @@ error: missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
 
 
 ```
-jormungandr --genesis-block-hash 65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839 --config config.yaml 
+GENESIS_BLOCK_HASH
+0.7.0           27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29
+0.8.0rc10       65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839  
+0.8.0           65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839  
+0.8.0L          e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197
+0.8.2 nightly   9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78
+0.8.2 itnv1     8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
+
+echo ${GENESIS_BLOCK_HASH}
+jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+
 ```
 >Check to see if node is receiving blocks
 ```
@@ -576,6 +619,8 @@ createAddress.sh account
 
 >To be recognized by Daedalus and Yoroi you need to get a secret key from the cardano-wallet https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
 ```
+mkdir ~/.local/bin
+
 curl -L https://github.com/input-output-hk/cardano-wallet/releases/download/v2019-12-09/cardano-wallet-jormungandr-macos64-v2019-12-09.tar.gz | tar xz -C $HOME/.local/bin
 
 # Show help
@@ -587,31 +632,44 @@ cardano-wallet mnemonic generate
 # Restore the private key from 15 word mnemonic phrase
 cardano-wallet mnemonic reward-credentials
 ```
->For more information https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
---- 
 
-> Create a secret key 
-
- ```
- jcli key generate --type=Ed25519Extended > receiver_secret.key
- ```
-
->Make a public key from the secret key 
+Copy and paste your cardano-wallet secret key here
+---
+```
+nano receiver_secret.key
+```
+Make a public key from the secret key and save it to a file called receiver_public.key
+---
 
 ```
 cat receiver_secret.key | jcli key to-public > receiver_public.key
 ``` 
-
-> Make an account address from the public key 
-
+Make an account address (with addr prefix) from the public key and save it to a file called receiver_account.txt
+--- 
 ```
 jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
+
+#make a backup and save to receiver_account_082addr.txt
+jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account_082addr.txt
+```
+
+Make an account address (without addr prefix) from the public key and save to receiver_account_accnt.txt
+---
+
+```
+jcli address account --testing $(cat receiver_public.key) | tee receiver_account_accnt.txt
+
+#Make a backup 
+jcli address account --testing $(cat receiver_public.key) | tee receiver_account_082accnt.txt
 ``` 
+
 
 > View the account address
 
 ```
 cat receiver_account.txt
+cat receiver_public.key
+cat receiver_secret.key
 ```
 
 
