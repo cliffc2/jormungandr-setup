@@ -610,7 +610,7 @@ Trouble shooting note: **[xcrun: error: invalid active developer path](https://s
 error: missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun 
 
 
-# Testnet and genesis block hash 
+# Testnets and genesis block hash 
 
 ```
 GENESIS_BLOCK_HASH
@@ -622,19 +622,25 @@ GENESIS_BLOCK_HASH
 0.8.2 itnv1     8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
 
 ```
->Check your current genesis block number
+>Check your current genesis block number 
 ```
 echo ${GENESIS_BLOCK_HASH}
+```
+>Note if you added the .bashrc exports these will show the corresponding hashes
+```
+echo ${GENESIS_BLOCK_HASH_ITN}
+echo ${GENESIS_BLOCK_HASH_082N}
+echo ${GENESIS_BLOCK_HASH_080L}
 ```
 Start 0.8.2 itn_rewards_v1 - testnet
 ---
 ```
-jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}
 ```
 Start 0.8.2 nightly - testnet
 ---
 ```
-jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_082N}
 ```
 >Check to see if node is receiving blocks ```stats``` or full jcli cmd
 ```
