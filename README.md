@@ -35,7 +35,7 @@ Here is the [IOHK zendesk guide](https://github.com/cardano-foundation/incentivi
         * download script
         * change permission
         * run script
-  * if you do not want rewards and want to build from scratch (nightly)
+  * if you do not want rewards but want to build from scratch (nightly)
       * create a secret key
       * create a public key 
       * create an account address
@@ -500,7 +500,7 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
 
 #  How to load Jormungandr from source code (Intermediate system administrator skill level)
 
-* To do list (load from source code)
+* To do list (load from source code overview)
   * install the [Rust programming language](https://github.com/rust-lang.)
   * load jormungandr program (using the cargo command)
   * load jcli (using the cargo command)
@@ -513,7 +513,7 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
   * create secret keys 
   * create public keys from secret keys 
   * create account address from public keys 
-  * get tokens from faucet
+  * get tokens from faucet or telegram group
   * send tokens to another account
   * create stake pool keys (4)
   * create stake pool certificate from stake pool keys
@@ -942,21 +942,11 @@ jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:3100/a
 
 
  ---
-Incentivized Testnet Stake Pool Registry
----
-> Here is the Cardano Foundation github https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-Register-Your-Stake-Pool-on-Chain
 
-Create owner keys for your stake pool 
----
-```
-jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub cat owner.{prv,pub}
-```
-
----
 
 Create a Stake pool (key and cert) example
 ---
->
+>These commands will generate your stake pool id (node-id) and the node_secret.yaml file. You need to make 4 keys; kes.prv, kes.pub, vrf.prv, vrf.pub
 
 |   | OSX Terminal |
 | ------------- | ------------- |
@@ -965,6 +955,8 @@ Create a Stake pool (key and cert) example
 | Make a secret stakepool key from scratch  | ```jcli key generate --type=SumEd25519_12 > stake_pool_kes.prv``` |
 | Make a public stakepool key from secret | ```cat stake_pool_kes.prv jcli key to-public > stake_pool_kes.pub``` |
 
+Generate your KES/VRF key pair
+---
 > Here is the Cardano Foundation example format 
 ```
   jcli key generate --type=SumEd25519_12 > kes.prv
@@ -977,7 +969,7 @@ Get your stake pool cert - generate your pool registration certificate
 
 >This is the format with indentions from Cardano Foundation reference 
 ```    
-    jcli certificate new stake-pool-registration \
+jcli certificate new stake-pool-registration \
     --kes-key $(cat kes.pub) \
     --vrf-key $(cat vrf.pub) \
     --owner $(cat owner.pub) \
@@ -991,9 +983,9 @@ Get your stake pool cert - generate your pool registration certificate
 >
 
 ```    
-  #this is a depreciated example - for reference only
+#this is a depreciated example - for reference only
 
-    jcli certificate new stake-pool-registration \
+jcli certificate new stake-pool-registration \
     --kes-key $(cat stake_pool_kes.pub) \
     --vrf-key $(cat stake_pool_vrf.pub) \
     --start-validity 0 \
@@ -1003,11 +995,27 @@ Get your stake pool cert - generate your pool registration certificate
     --tax-ratio "1/10" \
     --owner $(cat owner_key.pub) > stake_pool.cert
 ```
+>Example new stakepool registration in one line
+```
+jcli certificate new stake-pool-registration --kes-key kes25519-12-pk1q06kvadqp040wzc5acnnv06rjqns8aphnavyf9xfgpf6awjnnptqef9jkk --vrf-key vrf_pk1sesgrk2k6e6rxypkcj855fnnw8cs9k5zg62yhqklrzshmlj02qysdhxeqy --owner ed25519_pk14pe9kt0kcxqlj7h8g3ye2ljt5mjlph0y08l2jg8u6hgwsgag830qd708gl --start-validity 0 --management-threshold 1 > stake_pool.cert
+
+```
 Get the list of stake pools
 ---
 ```
 jcli rest v0 stake-pools get --host "http://127.0.0.1:3100/api"
 ```
+Incentivized Testnet Stake Pool Registry
+---
+> Here is the Cardano Foundation github https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-Register-Your-Stake-Pool-on-Chain
+
+Create owner keys for your stake pool 
+---
+```
+jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub cat owner.{prv,pub}
+```
+
+
 ---
 How to update Jormungandr version (from source) with git command
 ---
