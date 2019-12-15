@@ -502,17 +502,17 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
 
 * To do list (load from source code overview)
   * install the [Rust programming language](https://github.com/rust-lang.)
-  * load jormungandr program (using the cargo command)
-  * load jcli (using the cargo command)
+  * download jormungandr program (using the git and cargo command)
+  * download jcli (using the git and cargo command)
   * load sqlite (if not loaded - for blockchain database)
-  * edit port and check ip address
   * make 2 folders (for testnet program and blockchain database)
-  * edit config.yaml (computer's node info - ip address and port)
-  * start jormungadr node 
+  * create config.yaml (computer's node info - ip address and port)
+  * edit port 
+  * start jormungandr node -0.8.2. itnv1 
   * check node is in 'sync'
   * create secret keys 
   * create public keys from secret keys 
-  * create account address from public keys 
+  * create account address (prefix addr) from public keys 
   * get tokens from faucet or telegram group
   * send tokens to another account
   * create stake pool keys (4)
@@ -584,19 +584,19 @@ Download Jormungandr from IOHK github
 git clone --recurse-submodules https://github.com/input-output-hk/jormungandr 
 ```
 
->Enter the Jormungandr folder
+>Create and enter the Jormungandr folder
 
  ```
  cd jormungandr
  ``` 
 
-Load jormungandr 
+Build jormungandr from source
 ---
  ```
  cargo install --path jormungandr
  ```
 
-Load jcli 
+Build jcli from source
 --- 
 ```
 cargo install --path jcli
@@ -613,14 +613,14 @@ Trouble shooting note: **[xcrun: error: invalid active developer path](https://s
 error: missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun 
 
 
-# Testnets and genesis block hash 
+# Choose a blockchain testnet and genesis block hash to run
 
 ```
 GENESIS_BLOCK_HASH
 0.7.0           27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29
-0.8.0rc10       65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839  
+0.8.0 rc10      65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839  
 0.8.0           65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839  
-0.8.0L          e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197
+0.8.0 legacy    e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197
 0.8.2 nightly   9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78
 0.8.2 itnv1     8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
 
@@ -629,7 +629,7 @@ GENESIS_BLOCK_HASH
 ```
 echo ${GENESIS_BLOCK_HASH}
 ```
->Note if you added the .bashrc exports and shell functions - these will show the corresponding hashes
+>Note if you added the .bashrc exports and shell functions correctly - these will show the corresponding hashes
 ```
 echo ${GENESIS_BLOCK_HASH_ITN}
 echo ${GENESIS_BLOCK_HASH_082N}
@@ -663,23 +663,22 @@ curl http://127.0.0.1:3100/api/v0/node/stats
 createAddress.sh account
 ```
 
-# Create your keys and address (from scratch)
-
-
+# Create your account, keys, and address for Daedulus (from scratch)
 
 >To be recognized by Daedalus and Yoroi you need to get a secret key from the cardano-wallet https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
 ```
 mkdir ~/.local/bin
 
+# Download from IOHK github
 curl -L https://github.com/input-output-hk/cardano-wallet/releases/download/v2019-12-09/cardano-wallet-jormungandr-macos64-v2019-12-09.tar.gz | tar xz -C $HOME/.local/bin
 
 # Show help
 cardano-wallet -h
 
-# Generate 15 word mnemonic phrase
+# Generate your 15 word mnemonic phrase
 cardano-wallet mnemonic generate
 
-# Restore the private key from 15 word mnemonic phrase
+# Make (restore) the private key from 15 word mnemonic phrase
 cardano-wallet mnemonic reward-credentials
 
 #This is your new secret key from the cardano-wallet
@@ -702,21 +701,21 @@ Make an account address (with addr prefix) from the public key and save it to a 
 jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
 
 #make a backup and save to receiver_account_itn-addr.txt
-jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account_itn-addr.txt
+jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account_082-addr.txt
 ```
 
-Make an account address (without addr prefix) from the public key and save to receiver_account_itn-acct.txt
+Make an account address (without addr prefix) from the public key and save to receiver_account-acct.txt
 ---
 
 ```
-jcli address account --testing $(cat receiver_public.key) | tee receiver_account_itn-acct.txt
+jcli address account --testing $(cat receiver_public.key) | tee receiver_account-acct.txt
 
 #Make a backup 
-jcli address account --testing $(cat receiver_public.key) | tee receiver_account_itn-acct.txt
+jcli address account --testing $(cat receiver_public.key) | tee receiver_account_acct-bu.txt
 ``` 
 
 
-> View the account address
+> View the content of the file
 
 ```
 cat receiver_account.txt
@@ -731,7 +730,7 @@ cat receiver_secret.key
 ls 
 ``` 
 
-> You should see receiver_account.txt, receiver_secret.key, and a receiver_public.key 
+> You should see receiver_account.txt, receiver_secret.key, and a receiver_public.key \
 IT IS EXTREMELY IMPORTANT THAT YOU SAVE YOUR KEYS FOR FUTURE USE
 ---
 
