@@ -403,7 +403,6 @@ cardano-wallet mnemonic reward-credentials
 
 # Create a secret key file and copy and paste to nano editor
 nano receiver_secret.key
-
 ```
 
 >You can find the script here 
@@ -437,12 +436,13 @@ chmod +x createAddress.sh
 createAddress.sh account
 ```
 
-To manually create an account address with the "addr" prefix 
+To manually create an account address with the "addr" prefix. 
 ---
 >
 ```
-jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account-addr082.txt
+jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
 ```
+>You can rename the txt file to receiver_account-addr082.txt later to back it up. 
 
 ---
 
@@ -455,6 +455,7 @@ Get tokens (testnet ADA from telegram group if faucet is out)
  
 Check your account address to see your token balance 
 ---
+>Or you can use the shell function -  ```bal```
 ```
 jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:3100/api
 ``` 
@@ -628,7 +629,7 @@ GENESIS_BLOCK_HASH
 ```
 echo ${GENESIS_BLOCK_HASH}
 ```
->Note if you added the .bashrc exports these will show the corresponding hashes
+>Note if you added the .bashrc exports and shell functions - these will show the corresponding hashes
 ```
 echo ${GENESIS_BLOCK_HASH_ITN}
 echo ${GENESIS_BLOCK_HASH_082N}
@@ -943,7 +944,7 @@ jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:3100/a
  ---
 Incentivized Testnet Stake Pool Registry
 ---
-> https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/blob/f9930f7c9eb8b4360472b3890bdaeb0ad1eb7743/README.md
+> Here is the Cardano Foundation github https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-Register-Your-Stake-Pool-on-Chain
 
 Create owner keys for your stake pool 
 ---
@@ -953,8 +954,9 @@ jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pu
 
 ---
 
-Create a Stake pool (key and cert) by hand
+Create a Stake pool (key and cert) example
 ---
+>
 
 |   | OSX Terminal |
 | ------------- | ------------- |
@@ -963,11 +965,34 @@ Create a Stake pool (key and cert) by hand
 | Make a secret stakepool key from scratch  | ```jcli key generate --type=SumEd25519_12 > stake_pool_kes.prv``` |
 | Make a public stakepool key from secret | ```cat stake_pool_kes.prv jcli key to-public > stake_pool_kes.pub``` |
 
-Get your stake pool cert 
+> Here is the Cardano Foundation example format 
+```
+  jcli key generate --type=SumEd25519_12 > kes.prv
+  jcli key to-public < kes.prv > kes.pub
+  jcli key generate --type=Curve25519_2HashDH > vrf.prv
+  jcli key to-public < vrf.prv > vrf.pub
+```
+Get your stake pool cert - generate your pool registration certificate
 ---
 
->This is the format with indentions for reference
-    
+>This is the format with indentions from Cardano Foundation reference 
+```    
+    jcli certificate new stake-pool-registration \
+    --kes-key $(cat kes.pub) \
+    --vrf-key $(cat vrf.pub) \
+    --owner $(cat owner.pub) \
+    --management-threshold 1 \
+    --tax-limit $TAX_LIMIT \
+    --tax-ratio $TAX_RATIO \
+    --tax-fixed $TAX_FIXED \
+    --start-validity 0 \
+    > stake-pool-registration.cert
+```
+>
+
+```    
+  #this is a depreciated example - for reference only
+
     jcli certificate new stake-pool-registration \
     --kes-key $(cat stake_pool_kes.pub) \
     --vrf-key $(cat stake_pool_vrf.pub) \
@@ -977,8 +1002,13 @@ Get your stake pool cert
     --tax-limit 1000000000 \
     --tax-ratio "1/10" \
     --owner $(cat owner_key.pub) > stake_pool.cert
-
-
+```
+Get the list of stake pools
+---
+```
+jcli rest v0 stake-pools get --host "http://127.0.0.1:3100/api"
+```
+---
 How to update Jormungandr version (from source) with git command
 ---
 
@@ -1002,8 +1032,8 @@ How to drop all your local changes (and commits), fetch the latest version from 
 | Load new version  | ``` git fetch origin ```  |
 | Reset  | ```git reset --hard origin/master``` |
 
-
-Other tools and commands
+---
+Other tools and commands for reference
 ---
 
 | Terminal | Command |
@@ -1068,9 +1098,10 @@ genesis:\
 
 ```
 
-The Official reference 
+References
+--- 
 [IOHK Quickstart reference](https://input-output-hk.github.io/jormungandr/quickstart/01_command_line.html) 
----
+
 
 Technical support [Official Help desk](https://iohk.zendesk.com/hc/en-us/articles/360036898153-How-to-install-Jormungandr-Networking-Linux-macOS-) and here:
 https://iohk.zendesk.com/hc/en-us
