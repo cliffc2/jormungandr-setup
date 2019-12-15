@@ -477,7 +477,7 @@ Send tokens to an account address (script)
 ```
 nano send-lovelaces.sh
 ```
->copy and paste the send-lovelaces code
+>copy and paste the [send-lovelaces code from here](https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/blob/master/scripts/send-lovelaces.sh) 
 
 > change permissions to make the file executable 
 
