@@ -407,16 +407,12 @@ https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-inter
 
 
 > For more information refer to this https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
+
 ---
 
 Create your account address (script without incentives)
 ---
 
-> Create a secret key (from scratch)
-
- ```
- jcli key generate --type=Ed25519Extended > receiver_secret.key
- ```
 
 >Download this `createAddress.sh` script (not recognized by Daedalus or Yoroi)
 
