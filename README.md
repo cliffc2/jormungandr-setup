@@ -101,8 +101,8 @@ Copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
   ],
   "p2p": {
     "topics_of_interest": {
-      "blocks": "normal",
-      "messages": "low"
+      "blocks": "high",
+      "messages": "high"
     },
     "trusted_peers": [
       {
@@ -502,10 +502,10 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
 
 * To do list (load from source code overview)
   * install the [Rust programming language](https://github.com/rust-lang.)
+  * * make 2 folders (for testnet program and blockchain database)
   * download jormungandr program (using the git and cargo command)
   * download jcli (using the git and cargo command)
   * load sqlite (if not loaded - for blockchain database)
-  * make 2 folders (for testnet program and blockchain database)
   * create config.yaml (computer's node info - ip address and port)
   * edit port 
   * start jormungandr node -0.8.2. itnv1 
@@ -625,16 +625,97 @@ GENESIS_BLOCK_HASH
 0.8.2 itnv1     8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
 
 ```
->Check your current genesis block number 
+
+Choose the right config yaml for the corresponding genesis block 
+---
+>Search the hydra for the recent configs \
+https://hydra.iohk.io/search?query=configs
+
+
+
+Create and edit a new file called itn_rewards_v1-config.yaml
+---
+https://hydra.iohk.io/job/Cardano/iohk-nix/jormungandrConfigs.itn_rewards_v1
+```
+cd jormungandr 
+nano itn_rewards_v1-config.yaml
+```  
+
+>Download the itn_rewards_v1-config.yaml https://hydra.iohk.io/search?query=config and open nano editor (or vscode) config needs to be in jormungandr folder 
+
+>shortcuts for 
+copy (command+c) and paste (command+v) then save (control+o) and close nano (control+x) 
+
+
+Node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
+---
+```
+{
+  "log": [
+    {
+      "format": "plain",
+      "level": "info",
+      "output": "stderr"
+    }
+  ],
+  "p2p": {
+    "topics_of_interest": {
+      "blocks": "high",
+      "messages": "high"
+    },
+    "trusted_peers": [
+      {
+        "address": "/ip4/52.9.132.248/tcp/3000",
+        "id": "671a9e7a5c739532668511bea823f0f5c5557c99b813456c"
+      },
+      {
+        "address": "/ip4/52.8.15.52/tcp/3000",
+        "id": "18bf81a75e5b15a49b843a66f61602e14d4261fb5595b5f5"
+      },
+      {
+        "address": "/ip4/13.114.196.228/tcp/3000",
+        "id": "7e1020c2e2107a849a8353876d047085f475c9bc646e42e9"
+      },
+      {
+        "address": "/ip4/13.112.181.42/tcp/3000",
+        "id": "52762c49a84699d43c96fdfe6de18079fb2512077d6aa5bc"
+      },
+      {
+        "address": "/ip4/3.125.75.156/tcp/3000",
+        "id": "22fb117f9f72f38b21bca5c0f069766c0d4327925d967791"
+      },
+      {
+        "address": "/ip4/52.28.91.178/tcp/3000",
+        "id": "23b3ca09c644fe8098f64c24d75d9f79c8e058642e63a28c"
+      },
+      {
+        "address": "/ip4/3.124.116.145/tcp/3000",
+        "id": "99cb10f53185fbef110472d45a36082905ee12df8a049b74"
+      }
+    ]
+  },
+  "rest": {
+    "listen": "127.0.0.1:3100"
+  }
+}
+```
+
+Check the port and node configuration
+---
+
 ```
 echo ${GENESIS_BLOCK_HASH}
 ```
->Note if you added the .bashrc exports and shell functions correctly - these will show the corresponding hashes
+>Note if you added the .bashrc exports and shell functions correctly - these will show the default and optional hashes change them in ```nano ~/.bash_profile``` and ```source ~/.bash_profile``` after editing to refresh shell
 ```
 echo ${GENESIS_BLOCK_HASH_ITN}
 echo ${GENESIS_BLOCK_HASH_082N}
 echo ${GENESIS_BLOCK_HASH_080L}
 ```
+
+ 
+
+
 Start 0.8.2 itn_rewards_v1 - testnet
 ---
 ```
@@ -654,16 +735,13 @@ jcli rest v0 node stats get -h http://127.0.0.1:3100/api
 curl http://127.0.0.1:3100/api/v0/node/stats
 ```
 
-
-
-
 > Now we can make keys with this script here  https://github.com/input-output-hk/jormungandr-qa/tree/master/scripts
 
 ```
 createAddress.sh account
 ```
 
-# Create your account, keys, and address for Daedulus (from scratch)
+# Create your secret keys, public and address account for Daedulus (from scratch)
 
 >To be recognized by Daedalus and Yoroi you need to get a secret key from the cardano-wallet https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-interface
 ```
