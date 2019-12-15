@@ -674,6 +674,8 @@ cardano-wallet mnemonic generate
 
 # Restore the private key from 15 word mnemonic phrase
 cardano-wallet mnemonic reward-credentials
+
+#This is your new secret key from the cardano-wallet
 ```
 
 Copy and paste your cardano-wallet secret key to a file called receiver_secret.key (KEEP THIS SAFE)
@@ -692,18 +694,18 @@ Make an account address (with addr prefix) from the public key and save it to a 
 ```
 jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt
 
-#make a backup and save to receiver_account_082addr.txt
-jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account_082addr.txt
+#make a backup and save to receiver_account_itn-addr.txt
+jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account_itn-addr.txt
 ```
 
-Make an account address (without addr prefix) from the public key and save to receiver_account_accnt.txt
+Make an account address (without addr prefix) from the public key and save to receiver_account_itn-acct.txt
 ---
 
 ```
-jcli address account --testing $(cat receiver_public.key) | tee receiver_account_accnt.txt
+jcli address account --testing $(cat receiver_public.key) | tee receiver_account_itn-acct.txt
 
 #Make a backup 
-jcli address account --testing $(cat receiver_public.key) | tee receiver_account_082accnt.txt
+jcli address account --testing $(cat receiver_public.key) | tee receiver_account_itn-acct.txt
 ``` 
 
 
@@ -730,7 +732,7 @@ Get testnet ADA tokens (test-ADA)
 ---
  https://testnet.iohkdev.io/en/cardano/shelley/tools/faucet/
 ```
-curl -X POST https://faucet.faucet.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/files/receiver_account.txt)
+curl -X POST https://faucet.faucet.jormungandr-testnet.iohkdev.io/send-money/$(cat receiver_account.txt)
 ```
 ---
 Check your account address to see your token balance 
