@@ -2,6 +2,8 @@
 # How to load Jormungandr 0.8.x on Mac OSX 
 > Dec 14, cliffc2
 
+Here is the offical IOHK guide https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account
+
 * To do list (overview)
   * [create github account](https://github.com/)
   * join the Telegram [CardanostakepoolWorkgroup](https://t.me/CardanostakepoolWorkgroup/176) for admin support
@@ -29,7 +31,7 @@
       * if yes - goto [cardano-wallet (itn)](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-migrate-a-Byron-wallet-using-the-command-line)
         * create a 15 word password
         * create a secret key from 15 word 
-      * if no - just create it from a script
+      * if no - you can create an account from a script
         * download script
         * change permission
         * run script
@@ -267,7 +269,7 @@ export GENESIS_BLOCK_HASH_080L='e03547a7effaf05021b40dd762d5c4cf944b991144f1ad50
 
 Type each of the following commands in terminal
 ---
-> forked from Chris Graffagnino Linux setup https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs
+> Forked from Chris Graffagnino's Gist https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs
 ```
 echo "export USERNAME='<Replace this with your USERNAME>'" >> ~/.bashrc
 ```
@@ -275,7 +277,7 @@ echo "export USERNAME='<Replace this with your USERNAME>'" >> ~/.bashrc
 ```
 echo "export PUBLIC_IP_ADDR='<YOUR PUBLIC IP ADDRESS>'" >> ~/.bashrc
 ```
-> replace `<YOUR PUBLIC IP ADDRESS>` with your inet ip address. use the command ```ifconfig``` look for the number set after "inet" eg. 12.18.43.10
+> replace `<YOUR PUBLIC IP ADDRESS>` with your inet ip address. use the command ```ifconfig``` or ``` k``` look for the number set after "inet" eg. 12.18.43.10
 ```
 echo "export REST_PORT='3100'" >> ~/.bashrc
 ```
@@ -287,9 +289,9 @@ echo "export JORMUNGANDR_STORAGE_DIR='storage'" >> ~/.bashrc
 ```
 echo "export GENESIS_BLOCK_HASH='<EXAMPLE-GBLOCK-HASH>'" >> ~/.bashrc
 ```
->replace `<EXAMPLE-GBLOCK-HASH>` with the itn of nightly hash (see below)
+>replace `<EXAMPLE-GBLOCK-HASH>` with the itn or the nightly hash (see below)
 
-> Chris Graffagnino notes -What did we just do?
+> Chris Graffagnino notes - What did we just do?
 "echo" essentially means "print to screen"
 "export" declares a variable in a special way, so that any shells that spawn from it inherit the variable.">>" means "take the output of the previous command and append it to the end of a file (.bashrc, in this case)
 
@@ -321,6 +323,10 @@ jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOC
 ```
 > Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
 
+You can check the node to see if it stared correctly
+```
+tail logs/node.out
+```
 >Troubleshooting note: check for the latest genesis block hash and config.yaml path. Also check your ports to make sure they are calling the right number. Check your ip address and port (127.0.0.1:3100) 
 
 
@@ -380,7 +386,7 @@ jcli rest v0 settings get -h http://127.0.0.1:3100/api
 Create your account address (with incentives)
 ---
 
->If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed - on the 0.8.2 itn blockchain
+>If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed - on the 0.8.2 itn blockchain. 
 ```
 mkdir ~/.local/bin
 
@@ -406,7 +412,7 @@ https://github.com/input-output-hk/cardano-wallet/wiki/Wallet-command-line-inter
 
 
 
-> For more information refer to this https://gist.github.com/Chris-Graffagnino/cd6d1f6c2065140390ce3c3f849fbc11
+> For more information refer to this [How to register your stakepool on chain](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-Register-Your-Stake-Pool-on-Chain)
 
 ---
 
@@ -927,7 +933,10 @@ Check the message log to see the transaction
 ```
 jcli rest v0 message logs --host "http://127.0.0.1:3100/api
 ```
-
+>Check the balance of the account - or type ``` bal ```
+```
+jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:3100/api
+``` 
 
 
 
@@ -938,7 +947,9 @@ Incentivized Testnet Stake Pool Registry
 
 Create owner keys for your stake pool 
 ---
-```jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub cat owner.{prv,pub}```
+```
+jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub cat owner.{prv,pub}
+```
 
 ---
 
