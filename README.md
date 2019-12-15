@@ -734,12 +734,14 @@ Get testnet ADA tokens (test-ADA)
 ```
 curl -X POST https://faucet.faucet.jormungandr-testnet.iohkdev.io/send-money/$(cat receiver_account.txt)
 ```
+>if the faucet does not work, go to the telegram group and ask 
 ---
 Check your account address to see your token balance 
 ---
 ```
 jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:3100/api
 ``` 
+> or type ``` bal``` if the bash_profile is configured correctly
 ---
 Send tokens to another account
 ---
