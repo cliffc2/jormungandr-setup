@@ -155,13 +155,32 @@ nano ~/.bash_profile
 export ARCHFLAGS="-arch x86_64"
 test -f ~/.bashrc && source ~/.bashrc
 
-function start-ni() {
-    echo "$(jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH})"
+#------- testing starts here ---- cliffc2 ---- 
+
+alias c-acct='command cat receiver_account.txt'
+alias c-pk='command cat receiver_public.key'
+alias c-acct='command cat receiver_account.txt'
+alias run-itn='command jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}'
+
+# nightly-config-082
+function start-082n() {
+    GREEN=$(printf "\033[0;32m")
+    nohup jormungandr --config nightly-config-082.yaml --genesis-block-hash $GENESIS_BLOCK_HASH_082N >> logs/node.out 2>&1 &
+    echo ${GREEN}$(ps | grep jormungandr)
 }
 
-function start-itn() {
-    echo "$(jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH})"
+function check-gb() {
+    echo "${GENESIS_BLOCK_HASH}"
 }
+
+function gen-owner() {
+    echo "$(jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub | cat owner.{prv,pub})"
+}
+
+function gen-paddr() {
+    echo "$(jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt)"
+}
+#-------- end test functions ------
 
 function stop() {
     echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
