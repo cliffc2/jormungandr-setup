@@ -578,8 +578,7 @@ Trouble shooting note: **[xcrun: error: invalid active developer path](https://s
 error: missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun 
 
 
-# Start Jormungandr 
-
+# Testnet and genesis block hash 
 
 ```
 GENESIS_BLOCK_HASH
@@ -590,16 +589,26 @@ GENESIS_BLOCK_HASH
 0.8.2 nightly   9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78
 0.8.2 itnv1     8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
 
-echo ${GENESIS_BLOCK_HASH}
-jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
-jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
-
 ```
->Check to see if node is receiving blocks
+>Check your current genesis block number
+```
+echo ${GENESIS_BLOCK_HASH}
+```
+Start 0.8.2 itn_rewards_v1 - testnet
+---
+```
+jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+```
+Start 0.8.2 nightly - testnet
+---
+```
+jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+```
+>Check to see if node is receiving blocks ```stats``` or full jcli cmd
 ```
 jcli rest v0 node stats get -h http://127.0.0.1:3100/api
 ```
-> You can also view this in firefox
+> You can also view this in firefox http://127.0.0.1:3100/api/v0/node/stats
 ```
 curl http://127.0.0.1:3100/api/v0/node/stats
 ```
