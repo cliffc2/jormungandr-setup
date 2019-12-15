@@ -5,10 +5,10 @@ export JORMUNGANDR_STORAGE_DIR='/home/TYPE_USERNAME/storage'
 export RUST_BACKTRACE=1
 export GENESIS_BLOCK_HASH='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676'
 
-#-------- FOR REFERENCE - eg. 8e4d... points to the itnv1 (with reward tracked by daedalus) ---#
-# 0.7.0       # export GENESIS_BLOCK_HASH='27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29' 
-# 0.8.0 rc10  # export GENESIS_BLOCK_HASH='65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839' 
-# 0.8.0       # export GENESIS_BLOCK_HASH='65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839' 
-# 0.8.0 legacy# export GENESIS_BLOCK_HASH='e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197' 
-# 0.8.2 nightly# export GENESIS_BLOCK_HASH='9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78' 
-# 0.8.2 itnv1  # export GENESIS_BLOCK_HASH='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676' 
+#------ FOR REFERENCE - eg. the genesis block hash 8e4d... is the itnv1 (with reward tracked by daedalus) ---#
+# 0.7.0         # export GENESIS_BLOCK_HASH='27668e95121566df0bb2e2c11c5fd95dfe59efd570f8f592235ecff167ca3f29' 
+# 0.8.0 rc10    # export GENESIS_BLOCK_HASH='65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839' 
+# 0.8.0         # export GENESIS_BLOCK_HASH='65a9b15f82619fffd5a7571fdbf973a18480e9acf1d2fddeb606ebb53ecca839' 
+# 0.8.0 legacy  # export GENESIS_BLOCK_HASH='e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197' 
+# 0.8.2 nightly # export GENESIS_BLOCK_HASH='9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78' 
+# 0.8.2 itnv1   # export GENESIS_BLOCK_HASH='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676' 
