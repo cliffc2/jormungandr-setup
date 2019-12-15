@@ -6,18 +6,18 @@
   * [create github account](https://github.com/)
   * join the Telegram [CardanostakepoolWorkgroup](https://t.me/CardanostakepoolWorkgroup/176) for admin support
   * [download vscode](https://code.visualstudio.com/)
-  * load sqlite (if not loaded - for blockchain database)
+  * check sqlite version (mac osx comes preloaded with sqlite)
   * configure .bash_profile and .bashrc
-  * if you want to [download the latest zip(tar) file for osx](https://github.com/input-output-hk/jormungandr/releases) then  
+  * make 2 folders (in terminal or finder)
+      * jormungandr (inside home directory folder)
+      * storage (inside home directory folder)
+  * if you want to [download the binaries (zip) for osx](https://github.com/input-output-hk/jormungandr/releases) then  
       * unzip tar file in your download folder
-      * drag and drop files into you jormungandr folder goto make 2 folders
+      * drag and drop unzipped into your jormungandr folder 
   * if you want download from source then 
       * [install Rust](https://www.rust-lang.org/tools/install)
       * build jormungandr program from source (using the cargo command)
       * build jcli program from source (using the cargo command)
-  * make 2 folders (in terminal or finder)
-    * jormungandr (inside home directory folder)
-    * storage (inside home directory folder)
   * create a node config ".yaml" (in jormungandr folder)
     * edit (copy and paste) your (eg. config ".yaml") and 
     * change computer's ip address port number to 3100 
