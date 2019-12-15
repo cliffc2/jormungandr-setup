@@ -4,7 +4,7 @@
 
 * To do list (overview)
   * [create github account](https://github.com/)
-  * join telegram group
+  * join the Telegram [CardanostakepoolWorkgroup](https://t.me/CardanostakepoolWorkgroup/176) for admin support
   * [download vscode](https://code.visualstudio.com/)
   * load sqlite (if not loaded - for blockchain database)
   * configure .bash_profile and .bashrc
