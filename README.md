@@ -629,6 +629,7 @@ GENESIS_BLOCK_HASH
 ```
 
 Choose the right config yaml for the corresponding genesis block 
+IOHK configurations https://hydra.iohk.io/build/1497230/download/1/index.html
 ---
 >Search the hydra for the recent configs \
 https://hydra.iohk.io/search?query=configs
@@ -1061,11 +1062,22 @@ jcli certificate new stake-pool-registration \
     > stake-pool-registration.cert
 ```
 >
-
-
->Example new stakepool registration in one line
 ```
-jcli certificate new stake-pool-registration --kes-key $(cat kes.pub) --vrf-key $(cat vrf.pub) --owner $(cat owner.pub) --start-validity 0 --management-threshold 1 > stake-pool-registration.cert
+jcli certificate new stake-pool-registration \
+    --kes-key $(cat kes.pub) \
+    --vrf-key $(cat vrf.pub) \
+    --owner $(cat owner.pub) \
+    --management-threshold 1 \
+    --tax-fixed 1000000 \
+    --tax-limit 1000000000 \
+    --tax-ratio "1/10" \
+    --start-validity 0 \
+    > stake-pool-registration.cert
+```
+
+>Now you can view the you can view your pool id 
+```
+jcli certificate get-stake-pool-id < stake-pool-registration.cert
 
 ```
 Get the list of stake pools
