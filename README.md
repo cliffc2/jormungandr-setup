@@ -6,6 +6,8 @@ Here is the [IOHK Shelley testnet documentation](https://github.com/input-output
 
 Here is the [IOHK zendesk guide](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account)
 
+Here is the [ITN Explorer](https://shelleyexplorer.cardano.org/)
+
 * To do list (overview)
   * [create github account](https://github.com/)
   * join the Telegram [CardanostakepoolWorkgroup](https://t.me/CardanostakepoolWorkgroup/176) for admin support
@@ -644,7 +646,7 @@ cd jormungandr
 nano itn_rewards_v1-config.yaml
 ```  
 
->Download the itn_rewards_v1-config.yaml https://hydra.iohk.io/search?query=config and open nano editor (or vscode) config needs to be in jormungandr folder 
+>Download the itn_rewards_v1-config.yaml https://hydra.iohk.io/build/1497230/download/1/index.html and open nano editor (or vscode) config needs to be in jormungandr folder 
 
 >shortcuts for 
 copy (command+c) and paste (command+v) then save (control+o) and close nano (control+x) 
@@ -661,7 +663,10 @@ Node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
       "output": "stderr"
     }
   ],
+  "storage": "/storage",
   "p2p": {
+        "listen_address": "/ip4/127.0.0.1/tcp/3000",
+        "public_address": "/ip4/<YOUR IP ADDRESS - FIND WITH IFCONFIG>/tcp/3000",
     "topics_of_interest": {
       "blocks": "high",
       "messages": "high"
@@ -709,7 +714,7 @@ Check the port and node configuration
 ```
 echo ${GENESIS_BLOCK_HASH}
 ```
->Note if you added the .bashrc exports and shell functions correctly - these will show the default and optional hashes change them in ```nano ~/.bash_profile``` and ```source ~/.bash_profile``` after editing to refresh shell
+>Note you can save this to genesis_block.txt as some instructions will call $(cat genesis_block.txt) instead of ${GENESIS_BLOCK_HASH}.  Also if you added the .bashrc exports and shell functions correctly - these will show the default and optional hashes change them in ```nano ~/.bash_profile``` and ```source ~/.bash_profile``` after editing to refresh shell
 ```
 echo ${GENESIS_BLOCK_HASH_ITN}
 echo ${GENESIS_BLOCK_HASH_082N}
@@ -759,7 +764,7 @@ cardano-wallet -h
 # Generate your 15 word mnemonic phrase
 cardano-wallet mnemonic generate
 
-# Make (restore) the private key from 15 word mnemonic phrase
+# Make (or restore) the private key from 15 word mnemonic phrase
 cardano-wallet mnemonic reward-credentials
 
 #This is your new secret key from the cardano-wallet
