@@ -1062,22 +1062,10 @@ jcli certificate new stake-pool-registration \
 ```
 >
 
-```    
-#this is a depreciated example - for reference only
 
-jcli certificate new stake-pool-registration \
-    --kes-key $(cat stake_pool_kes.pub) \
-    --vrf-key $(cat stake_pool_vrf.pub) \
-    --start-validity 0 \
-    --management-threshold 1 \
-    --tax-fixed 1000000 \
-    --tax-limit 1000000000 \
-    --tax-ratio "1/10" \
-    --owner $(cat owner_key.pub) > stake_pool.cert
-```
 >Example new stakepool registration in one line
 ```
-jcli certificate new stake-pool-registration --kes-key kes25519-12-pk1q06kvadqp040wzc5acnnv06rjqns8aphnavyf9xfgpf6awjnnptqef9jkk --vrf-key vrf_pk1sesgrk2k6e6rxypkcj855fnnw8cs9k5zg62yhqklrzshmlj02qysdhxeqy --owner ed25519_pk14pe9kt0kcxqlj7h8g3ye2ljt5mjlph0y08l2jg8u6hgwsgag830qd708gl --start-validity 0 --management-threshold 1 > stake_pool.cert
+jcli certificate new stake-pool-registration --kes-key $(cat kes.pub) --vrf-key $(cat vrf.pub) --owner $(cat owner.pub) --start-validity 0 --management-threshold 1 > stake-pool-registration.cert
 
 ```
 Get the list of stake pools
