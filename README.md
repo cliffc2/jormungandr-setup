@@ -2,7 +2,7 @@
 # How to load Jormungandr 0.8.x on Mac OSX 
 > Dec 14, cliffc2 - Disclaimer: This is only for reference. During the roll out of the Shelley Incentivized testnet, anyone claiming to be a stake pool and requesting a transfer of ada is a scam. You will never need to send anyone your ada to delegate your stake. 
 
-Here is the IOHK Shelley testnet https://github.com/input-output-hk/shelley-testnet/blob/master/docs/stake_pool_operator_how_to.md
+Here is the [IOHK Shelley testnet documentation](https://github.com/input-output-hk/shelley-testnet/blob/master/docs/stake_pool_operator_how_to.md)
 
 Here is the [IOHK zendesk guide](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account)
 
@@ -1027,12 +1027,6 @@ Create a Stake pool (key and cert) example
 ---
 >These commands will generate your stake pool id (node-id) and the node_secret.yaml file. You need to make 4 keys; kes.prv, kes.pub, vrf.prv, vrf.pub
 
-|   | OSX Terminal |
-| ------------- | ------------- |
-| Make a secret vrf key  | ```        jcli key generate --type=Curve25519_2HashDH > stake_pool_vrf.prv         ```  |
-| Make a public vrf key from secret vrf key  | ```cat stake_pool_vrf.prv jcli key to-public > stake_pool_vrf.pub```  |
-| Make a secret stakepool key from scratch  | ```jcli key generate --type=SumEd25519_12 > stake_pool_kes.prv``` |
-| Make a public stakepool key from secret | ```cat stake_pool_kes.prv jcli key to-public > stake_pool_kes.pub``` |
 
 Generate your KES/VRF key pair
 ---
@@ -1043,10 +1037,17 @@ Generate your KES/VRF key pair
   jcli key generate --type=Curve25519_2HashDH > vrf.prv
   jcli key to-public < vrf.prv > vrf.pub
 ```
+|   | OSX Terminal |
+| ------------- | ------------- |
+| Make a secret vrf key  | ```        jcli key generate --type=Curve25519_2HashDH > vrf.prv         ```  |
+| Make a public vrf key from secret vrf key  | ```cat vrf.prv jcli key to-public > vrf.pub```  |
+| Make a secret stakepool key from scratch  | ```jcli key generate --type=SumEd25519_12 > kes.prv``` |
+| Make a public stakepool key from secret | ```cat kes.prv jcli key to-public > kes.pub``` |
+
 Get your stake pool cert - generate your pool registration certificate
 ---
 
->This is the format with indentions from Cardano Foundation reference 
+>This is the format with indentions from [Cardano Foundation reference](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki/How-to-Register-Your-Stake-Pool-on-Chain#step-4-generate-your-pools-credentials) 
 ```    
 jcli certificate new stake-pool-registration \
     --kes-key $(cat kes.pub) \
