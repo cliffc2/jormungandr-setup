@@ -6,7 +6,7 @@ Here is the [IOHK Shelley testnet documentation](https://github.com/input-output
 
 Here is the [IOHK zendesk guide](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account)
 
-Here is the [ITN Explorer](https://shelleyexplorer.cardano.org/)
+Here is the [Shelley Incentivized Testnet Explorer](https://shelleyexplorer.cardano.org/)
 
 * To do list (overview)
   * [create github account](https://github.com/)
