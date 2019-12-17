@@ -2,7 +2,6 @@
 # How to load Jormungandr 0.8.x on Mac OSX 
 > Dec 14, cliffc2 - Disclaimer: This is only for reference. During the roll out of the Shelley Incentivized testnet, anyone claiming to be a stake pool and requesting a transfer of ada is a scam. You will never need to send anyone your ada to delegate your stake. 
 
-<<<<<<< HEAD
 Here is the [IOHK Shelley testnet documentation](https://github.com/input-output-hk/shelley-testnet/blob/master/docs/stake_pool_operator_how_to.md)
 
 Here is the [IOHK zendesk guide](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account)
