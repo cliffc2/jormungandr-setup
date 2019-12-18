@@ -4,8 +4,7 @@
 
 [IOHK Shelley testnet documentation](https://github.com/input-output-hk/shelley-testnet/blob/master/docs/stake_pool_operator_how_to.md) \
 [IOHK zendesk guide](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account) \
-[ITN Explorer](https://shelleyexplorer.cardano.org/) \
-https://adapools.org/
+[Shelley Incentivized Testnet Explorer](https://shelleyexplorer.cardano.org/)
 
 * To do list (overview)
   * [create github account](https://github.com/)
