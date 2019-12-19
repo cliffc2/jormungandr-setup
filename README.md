@@ -11,7 +11,6 @@
   * join the Telegram [CardanostakepoolWorkgroup](https://t.me/CardanostakepoolWorkgroup/176) for admin support
   * [download vscode](https://code.visualstudio.com/)
   * check sqlite version (mac osx comes preloaded with sqlite)
-  * configure .bash_profile and .bashrc
   * make 2 folders (in terminal or finder)
       * jormungandr (inside home directory folder)
       * storage (inside home directory folder)
@@ -139,173 +138,16 @@ Copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
   },
   "rest": {
     "listen": "127.0.0.1:3100"
-  }
+  },
+  "storage": "~/storage"
 }
 ```
->Troubleshooting - name your configs according to version so you can see them clearly - the storage location is separated from previous rc versions it will be declared in .bashrc
+>Troubleshooting - name your configs according to version so you can see them clearly - the storage location is separated from previous rc versions 
 
-Configure .bash_profile file 
----
->Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Graffagnino (linux) https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/tree/master/config
-
-
-
-```
-nano ~/.bash_profile
-```
->Copy and paste the following into the .bash_profile file 
-```
-#this is a fork so not all of the simplified commands work yet
-export ARCHFLAGS="-arch x86_64"
-test -f ~/.bashrc && source ~/.bashrc
-
-#------- testing starts here ---- cliffc2 ---- 
-
-alias c-acct='command cat receiver_account.txt'
-alias c-pk='command cat receiver_public.key'
-alias c-acct='command cat receiver_account.txt'
-alias run-itn='command jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}'
-
-# nightly-config-082
-function start-082n() {
-    GREEN=$(printf "\033[0;32m")
-    nohup jormungandr --config nightly-config-082.yaml --genesis-block-hash $GENESIS_BLOCK_HASH_082N >> logs/node.out 2>&1 &
-    echo ${GREEN}$(ps | grep jormungandr)
-}
-
-function check-gb() {
-    echo "${GENESIS_BLOCK_HASH}"
-}
-
-function gen-owner() {
-    echo "$(jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub | cat owner.{prv,pub})"
-}
-
-function gen-paddr() {
-    echo "$(jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt)"
-}
-#-------- end test functions ------
-
-function stop() {
-    echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function stats() {
-    echo "$(jcli rest v0 node stats get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function bal() {
-    echo "$(jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function faucet() {
-    echo "$(curl -X POST https://faucet.beta.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/jormungandr/receiver_account.txt))"
-}
-
-function get_ip() {
-    echo "${PUBLIC_IP_ADDR}"
-}
-
-function get_pid() {
-    ps auxf | grep jor
-}
-
-function memory() {
-    top -o %MEM
-}
-
-function nodes() {
-    nodes="$(netstat -tupan | grep jor | grep EST | cut -c 1-80)"
-    total="$(netstat -tupan | grep jor | grep EST | cut -c 1-80 | wc -l)"
-    printf "%s\n" "${nodes}" "----------" "Total:" "${total}"
-}
-
-function num_open_files() {
-    echo "Calculating number of open files..."
-    echo "$(lsof -u $(whoami) | wc -l)"
-}
-
-function is_pool_visible() {
-    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat stake_pool.id))
-}
-
-function create_stake_pool() {
-    echo "$(createStakePool.sh ${REST_PORT} $(cat receiver_secret.key))"
-}
-
-function delegate() {
-    echo "$(delegate-account.sh $(cat stake_pool.id) ${REST_PORT} $(cat receiver_secret.key))"
-}
-
-
-function leader_logs() {
-    echo "Has this node been scheduled to be leader?"
-    echo "$(jcli rest v0 leaders logs get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function problems() {
-    grep -E -i 'cannot|stuck|exit|unavailable' logs/node.out
-}
-```
----
-
-Configure .bashrc
----
-```
-nano ~/.bashrc
-``` 
->Here is and example of the .bashrc - copy and paste the text below. This will simplify the different GB hashes you may want to call. 
-```
-
-# this is a list of genesis block hashes you may want to try.
-export USERNAME='<USERNAME>'
-export PUBLIC_IP_ADDR='<YOU CAN FIND THIS FROM IFCONFIG IN COMMAND LINE>'
-export REST_PORT='<THE MOST COMMON PORT BEING USED IS 3100>'
-export JORMUNGANDR_STORAGE_DIR='/home/TYPE_USERNAME/storage'
-export RUST_BACKTRACE=1
-export GENESIS_BLOCK_HASH='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676'
-export GENESIS_BLOCK_HASH_ITN='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676'
-export GENESIS_BLOCK_HASH_082N='9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78'
-export GENESIS_BLOCK_HASH_080L='e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197'
-```
-
-Type each of the following commands in terminal
----
-> Forked from Chris Graffagnino's Gist https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs
-```
-echo "export USERNAME='<Replace this with your USERNAME>'" >> ~/.bashrc
-```
-> Open a new terminal prompt (command+N) replace `<YOUR USERNAME>` with your mac's username. you can find the username with the command ```ls /users ```
-```
-echo "export PUBLIC_IP_ADDR='<YOUR PUBLIC IP ADDRESS>'" >> ~/.bashrc
-```
-> replace `<YOUR PUBLIC IP ADDRESS>` with your inet ip address. use the command ```ifconfig``` or ``` k``` look for the number set after "inet" eg. 12.18.43.10
-```
-echo "export REST_PORT='3100'" >> ~/.bashrc
-```
-> This is a common port number in the node configs yaml - 3100 - being used by most of the admins 
-```
-echo "export JORMUNGANDR_STORAGE_DIR='storage'" >> ~/.bashrc
-```
-> copy this and enter. this matches the storage location in the common node configs 
-```
-echo "export GENESIS_BLOCK_HASH='<EXAMPLE-GBLOCK-HASH>'" >> ~/.bashrc
-```
->replace `<EXAMPLE-GBLOCK-HASH>` with the itn or the nightly hash (see below)
-
-> Chris Graffagnino notes - What did we just do?
-"echo" essentially means "print to screen"
-"export" declares a variable in a special way, so that any shells that spawn from it inherit the variable.">>" means "take the output of the previous command and append it to the end of a file (.bashrc, in this case)
-
-Load the new .bash_profile and .bashrc 
----
-```
-source ~/.bash_profile
-```
-
->The source command loads new variables so you can use them in the terminal. FYI There's a command in .bash_profile that points to .bashrc 
-
-
+Create a text file called genesis-hash.txt
+with 
+>Genesis block hash for 0.8.2-3 itn_rewards_v1
+`8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
 
 ---
 Start the Jormungandr Node 0.8.2 (itn or nightly)
@@ -314,14 +156,14 @@ Start the Jormungandr Node 0.8.2 (itn or nightly)
 
 This is the command to start Jormungandr with Daedalus / Yoroi rewards
 ```
-jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash $(genesis-hash.txt)
 ```
 >Genesis block hash for 0.8.2 itn_rewards_v1
 `8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
 
 This is the command to start Jormungandr without Daedalus / Yoroi rewards 
 ```
-jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH}
+jormungandr --config nightly-config-082.yaml --genesis-block-hash $(genesis-hash.txt)
 ```
 > Genesis block hash for 0.8.2 nightly `9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78`
 
@@ -508,6 +350,7 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
   * download jormungandr program (using the git and cargo command)
   * download jcli (using the git and cargo command)
   * load sqlite (if not loaded - for blockchain database)
+  * configure .bash_profile and .bashrc 
   * create config.yaml (computer's node info - ip address and port)
   * edit port 
   * start jormungandr node -0.8.2. itnv1 
@@ -613,7 +456,172 @@ Check the jcli version
 > If build fails - load ```xcode-select --install```  
 Trouble shooting note: **[xcrun: error: invalid active developer path](https://stackoverflow.com/questions/52522565/git-is-not-working-after-macos-update-xcrun-error-invalid-active-developer-pa)** 
 error: missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun 
+---
 
+
+Configure .bash_profile file 
+---
+>Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Graffagnino (linux) https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/tree/master/config
+
+
+
+```
+nano ~/.bash_profile
+```
+>Copy and paste the following into the .bash_profile file 
+```
+#this is a fork so not all of the simplified commands work yet
+export ARCHFLAGS="-arch x86_64"
+test -f ~/.bashrc && source ~/.bashrc
+
+#------- testing starts here ---- cliffc2 ---- 
+
+alias c-acct='command cat receiver_account.txt'
+alias c-pk='command cat receiver_public.key'
+alias c-acct='command cat receiver_account.txt'
+alias run-itn='command jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}'
+
+# nightly-config-082
+function start-082n() {
+    GREEN=$(printf "\033[0;32m")
+    nohup jormungandr --config nightly-config-082.yaml --genesis-block-hash $GENESIS_BLOCK_HASH_082N >> logs/node.out 2>&1 &
+    echo ${GREEN}$(ps | grep jormungandr)
+}
+
+function check-gb() {
+    echo "${GENESIS_BLOCK_HASH}"
+}
+
+function gen-owner() {
+    echo "$(jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub | cat owner.{prv,pub})"
+}
+
+function gen-paddr() {
+    echo "$(jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt)"
+}
+#-------- end test functions ------
+
+function stop() {
+    echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function stats() {
+    echo "$(jcli rest v0 node stats get -h http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function bal() {
+    echo "$(jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function faucet() {
+    echo "$(curl -X POST https://faucet.beta.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/jormungandr/receiver_account.txt))"
+}
+
+function get_ip() {
+    echo "${PUBLIC_IP_ADDR}"
+}
+
+function get_pid() {
+    ps auxf | grep jor
+}
+
+function memory() {
+    top -o %MEM
+}
+
+function nodes() {
+    nodes="$(netstat -tupan | grep jor | grep EST | cut -c 1-80)"
+    total="$(netstat -tupan | grep jor | grep EST | cut -c 1-80 | wc -l)"
+    printf "%s\n" "${nodes}" "----------" "Total:" "${total}"
+}
+
+function num_open_files() {
+    echo "Calculating number of open files..."
+    echo "$(lsof -u $(whoami) | wc -l)"
+}
+
+function is_pool_visible() {
+    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat stake_pool.id))
+}
+
+function create_stake_pool() {
+    echo "$(createStakePool.sh ${REST_PORT} $(cat receiver_secret.key))"
+}
+
+function delegate() {
+    echo "$(delegate-account.sh $(cat stake_pool.id) ${REST_PORT} $(cat receiver_secret.key))"
+}
+
+
+function leader_logs() {
+    echo "Has this node been scheduled to be leader?"
+    echo "$(jcli rest v0 leaders logs get -h http://127.0.0.1:${REST_PORT}/api)"
+}
+
+function problems() {
+    grep -E -i 'cannot|stuck|exit|unavailable' logs/node.out
+}
+```
+---
+
+Configure .bashrc
+---
+```
+nano ~/.bashrc
+``` 
+>Here is and example of the .bashrc - copy and paste the text below. This will simplify the different GB hashes you may want to call. 
+```
+
+# this is a list of genesis block hashes you may want to try.
+export USERNAME='<USERNAME>'
+export PUBLIC_IP_ADDR='<YOU CAN FIND THIS FROM IFCONFIG IN COMMAND LINE>'
+export REST_PORT='<THE MOST COMMON PORT BEING USED IS 3100>'
+export JORMUNGANDR_STORAGE_DIR='/home/TYPE_USERNAME/storage'
+export RUST_BACKTRACE=1
+export GENESIS_BLOCK_HASH='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676'
+export GENESIS_BLOCK_HASH_ITN='8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676'
+export GENESIS_BLOCK_HASH_082N='9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78'
+export GENESIS_BLOCK_HASH_080L='e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197'
+```
+
+Type each of the following commands in terminal
+---
+> Forked from Chris Graffagnino's Gist https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs
+```
+echo "export USERNAME='<Replace this with your USERNAME>'" >> ~/.bashrc
+```
+> Open a new terminal prompt (command+N) replace `<YOUR USERNAME>` with your mac's username. you can find the username with the command ```ls /users ```
+```
+echo "export PUBLIC_IP_ADDR='<YOUR PUBLIC IP ADDRESS>'" >> ~/.bashrc
+```
+> replace `<YOUR PUBLIC IP ADDRESS>` with your inet ip address. use the command ```ifconfig``` or ``` k``` look for the number set after "inet" eg. 12.18.43.10
+```
+echo "export REST_PORT='3100'" >> ~/.bashrc
+```
+> This is a common port number in the node configs yaml - 3100 - being used by most of the admins 
+```
+echo "export JORMUNGANDR_STORAGE_DIR='storage'" >> ~/.bashrc
+```
+> copy this and enter. this matches the storage location in the common node configs 
+```
+echo "export GENESIS_BLOCK_HASH='<EXAMPLE-GBLOCK-HASH>'" >> ~/.bashrc
+```
+>replace `<EXAMPLE-GBLOCK-HASH>` with the itn or the nightly hash (see below)
+
+> Chris Graffagnino notes - What did we just do?
+"echo" essentially means "print to screen"
+"export" declares a variable in a special way, so that any shells that spawn from it inherit the variable.">>" means "take the output of the previous command and append it to the end of a file (.bashrc, in this case)
+
+Load the new .bash_profile and .bashrc 
+---
+```
+source ~/.bash_profile
+```
+
+>The source command loads new variables so you can use them in the terminal. FYI There's a command in .bash_profile that points to .bashrc 
+
+
+---
 
 # Choose a blockchain testnet and genesis block hash to run
 
