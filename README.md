@@ -1110,10 +1110,15 @@ jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pu
 ---
 How to update Jormungandr version (from source) with git command
 ---
-
+```
+git checkout tags/v0.8.3
+git submodule update --init
+cargo install --path jormungandr --force
+cargo install --path jcli --force
+```
 | Git something | OSX Terminal Command |
 | ------------- | ------------- |
-| Load new version  | ``` git checkout v0.8.x ```  |
+| Load new version  | ``` git checkout tags/v0.8.x ```  |
 ||```git checkout tags/<latest release tag>```|
 | Copy from Github  | ```git pull``` |
 | Check submodules  | ```git submodule update --init --recursive```|
