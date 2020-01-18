@@ -72,13 +72,10 @@ mkdir -p ~/jormungandr
 mkdir -p ~/storage 
 
 ```
->  This 'storage' location is declared in the .bashrc file
+>  This 'storage' location is declared in the .bashrc file or config
 ---
 
-
-
-
-Create and edit a new file called itn_rewards_v1-config.yaml
+Create and edit (in terminal) a new file called itn_rewards_v1-config.yaml
 ---
 
 ```
@@ -139,124 +136,19 @@ Copy this node config for itn_rewards_v1-config.yaml for 0.8.6 (itn)
   },
   "rest": {
     "listen": "127.0.0.1:3100"
-<<<<<<< HEAD
-  }
-}
-```
->Troubleshooting - name your configs according to version so you can see them clearly - the storage location is separated from previous rc versions it will be declared in .bashrc
-
-Configure .bash_profile file 
----
->Open the .bash_profile file in nano. The period in .bash_profile denotes the file is hidden in the finder (hold command+shift+[period key] to show hidden files in finder). Note - these are forked from Chris Graffagnino (linux) https://github.com/Chris-Graffagnino/Jormungandr-for-Newbs/tree/master/config
-
-
-
-```
-nano ~/.bash_profile
-```
->Copy and paste the following into the .bash_profile file 
-```
-#this is a fork so not all of the simplified commands work yet
-export ARCHFLAGS="-arch x86_64"
-test -f ~/.bashrc && source ~/.bashrc
-
-#------- testing starts here ---- cliffc2 ---- 
-
-alias c-acct='command cat receiver_account.txt'
-alias c-pk='command cat receiver_public.key'
-alias c-acct='command cat receiver_account.txt'
-alias run-itn='command jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}'
-
-# nightly-config
-
-
-function check-gb() {
-    echo "${GENESIS_BLOCK_HASH}"
-}
-
-function gen-owner() {
-    echo "$(jcli key generate --type ed25519 | tee owner.prv | jcli key to-public > owner.pub | cat owner.{prv,pub})"
-}
-
-function gen-paddr() {
-    echo "$(jcli address account --prefix addr --testing $(cat receiver_public.key) | tee receiver_account.txt)"
-}
-#-------- end test functions ------
-
-function stop() {
-    echo "$(jcli rest v0 shutdown get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function stats() {
-    echo "$(jcli rest v0 node stats get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function bal() {
-    echo "$(jcli rest v0 account get $(cat receiver_account.txt) -h  http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function faucet() {
-    echo "$(curl -X POST https://faucet.beta.jormungandr-testnet.iohkdev.io/send-money/$(cat ~/jormungandr/receiver_account.txt))"
-}
-
-function get_ip() {
-    echo "${PUBLIC_IP_ADDR}"
-}
-
-function get_pid() {
-    ps auxf | grep jor
-}
-
-function memory() {
-    top -o %MEM
-}
-
-function nodes() {
-    nodes="$(netstat -tupan | grep jor | grep EST | cut -c 1-80)"
-    total="$(netstat -tupan | grep jor | grep EST | cut -c 1-80 | wc -l)"
-    printf "%s\n" "${nodes}" "----------" "Total:" "${total}"
-}
-
-function num_open_files() {
-    echo "Calculating number of open files..."
-    echo "$(lsof -u $(whoami) | wc -l)"
-}
-
-function is_pool_visible() {
-    echo ${GREEN}$(jcli rest v0 stake-pools get --host "http://127.0.0.1:${REST_PORT}/api" | grep $(cat stake_pool.id))
-}
-
-function create_stake_pool() {
-    echo "$(createStakePool.sh ${REST_PORT} $(cat receiver_secret.key))"
-}
-
-function delegate() {
-    echo "$(delegate-account.sh $(cat stake_pool.id) ${REST_PORT} $(cat receiver_secret.key))"
-}
-
-
-function leader_logs() {
-    echo "Has this node been scheduled to be leader?"
-    echo "$(jcli rest v0 leaders logs get -h http://127.0.0.1:${REST_PORT}/api)"
-}
-
-function problems() {
-    grep -E -i 'cannot|stuck|exit|unavailable' logs/node.out
-=======
   },
   "storage": "~/storage"
->>>>>>> 9351474662e0e538a1c1b161323291bbe1958ed9
 }
 ```
 >Troubleshooting - name your configs according to version so you can see them clearly - the storage location is separated from previous rc versions 
 
 Create a text file called genesis-hash.txt
 with 
->Genesis block hash for 0.8.2-3 itn_rewards_v1
+>Genesis block hash for 0.8.6-3 itn_rewards_v1
 `8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676`
 
 ---
-Start the Jormungandr Node 0.8.2 (itn or nightly)
+Start the Jormungandr Node 0.8.6 (itn or nightly)
 ---
 >Check for the latest genesis block hashes and recent configs ".yaml". The paths if working correctly will use the .bash_profile functions to shorten the commands and environment variables. Also check your ports to make sure they are calling the right number (like phone extentions). Check your ip address and port (eg. 127.0.0.1:3100)
 
@@ -336,7 +228,7 @@ jcli rest v0 settings get -h http://127.0.0.1:3100/api
 Create your account address (with incentives)
 ---
 
->If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed - on the 0.8.2 itn blockchain. 
+>If you want to track your rewards in Daedalus or Yoroi you need to get the cardano-wallet program to generate a 15 word seed - on the 0.8.6 itn blockchain. 
 ```
 mkdir ~/.local/bin
 
@@ -459,7 +351,7 @@ send-lovelaces.sh <DESTINATION ADDRESS> <AMOUNT LOVELACES TO SEND> ${REST_PORT} 
   * configure .bash_profile and .bashrc 
   * create config.yaml (computer's node info - ip address and port)
   * edit port 
-  * start jormungandr node -0.8.2. itnv1 
+  * start jormungandr node -0.8.6. itnv1 
   * check node is in 'sync'
   * create secret keys 
   * create public keys from secret keys 
@@ -739,7 +631,7 @@ GENESIS_BLOCK_HASH
 0.8.0 legacy    e03547a7effaf05021b40dd762d5c4cf944b991144f1ad507ef792ae54603197
 0.8.2 nightly   9409af111b04896c756c1cee3b7f9bae8b9ed1843c9e0a5f07d92ab9b62f6f78
 0.8.2 itnv1     8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
-
+0.8.6           8e4d2a343f3dcf9330ad9035b3e8d168e6728904262f2c434a4f8f934ec7b676
 ```
 
 Choose the right config yaml for the corresponding genesis block 
@@ -764,7 +656,7 @@ nano itn_rewards_v1-config.yaml
 copy (command+c) and paste (command+v) then save (control+o) and close nano (control+x) 
 
 
-Node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
+Node config for itn_rewards_v1-config.yaml for 0.8.6 (itn)
 ---
 ```
 {
@@ -836,12 +728,12 @@ echo ${GENESIS_BLOCK_HASH_080L}
  
 
 
-Start 0.8.2 itn_rewards_v1 - testnet
+Start 0.8.6 itn_rewards_v1 - testnet
 ---
 ```
 jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}
 ```
-Start 0.8.2 nightly - testnet
+Start 0.8.6 nightly - testnet
 ---
 ```
 jormungandr --config nightly-config-082.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_082N}
