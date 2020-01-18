@@ -1,6 +1,6 @@
 
 # How to load Jormungandr 0.8.x on Mac OSX 
-> Dec 14, cliffc2 - Disclaimer: This is only for reference. During the roll out of the Shelley Incentivized testnet, anyone claiming to be a stake pool and requesting a transfer of ada is a scam. You will never need to send anyone your ada to delegate your stake. 
+> Jan 19, cliffc2 - Disclaimer: This is only for reference. During the roll out of the Shelley Incentivized testnet, anyone claiming to be a stake pool and requesting a transfer of ada is a scam. You will never need to send anyone your ada to delegate your stake. This is like the fight club - rule #1, never talk about your private keys, rule $#2...
 
 [IOHK Shelley testnet documentation](https://github.com/input-output-hk/shelley-testnet/blob/master/docs/stake_pool_operator_how_to.md) \
 [IOHK zendesk guide](https://github.com/cardano-foundation/incentivized-testnet-stakepool-registry/wiki#step-3-fund-your-account) \
@@ -59,7 +59,7 @@ Download the Jormungandr 0.8.x OSX zip file
 --- 
 > View latest releases https://github.com/input-output-hk/jormungandr/releases/ 
 
-* look for jormungandr-v0.8.2-x86_64-apple-darwin.tar.gz 
+* look for jormungandr-v0.8.6-x86_64-apple-darwin.tar.gz 
 * download it
 * unzip the tar
 * open the "home" folder in finder (command+shift+H)
@@ -71,6 +71,7 @@ Download the Jormungandr 0.8.x OSX zip file
 ```
 mkdir -p ~/jormungandr     
 mkdir -p ~/storage 
+
 ```
 >  This 'storage' location is declared in the .bashrc file
 ---
@@ -89,8 +90,8 @@ nano itn_rewards_v1-config.yaml
 >Copy the itn_rewards_v1-config.yaml below and open nano editor (or vscode) config needs to be in jormungandr folder - shortcuts for 
 copy (command+c) and paste (command+v) then save (control+o) and close nano (control+x) 
 
-
-Copy this node config for itn_rewards_v1-config.yaml for 0.8.2 (itn)
+Find up to date trusted node ip address https://adapools.org/peers
+Copy this node config for itn_rewards_v1-config.yaml for 0.8.6 (itn)
 ---
 ```
 {
@@ -166,12 +167,8 @@ alias c-pk='command cat receiver_public.key'
 alias c-acct='command cat receiver_account.txt'
 alias run-itn='command jormungandr --config itn_rewards_v1-config.yaml --genesis-block-hash ${GENESIS_BLOCK_HASH_ITN}'
 
-# nightly-config-082
-function start-082n() {
-    GREEN=$(printf "\033[0;32m")
-    nohup jormungandr --config nightly-config-082.yaml --genesis-block-hash $GENESIS_BLOCK_HASH_082N >> logs/node.out 2>&1 &
-    echo ${GREEN}$(ps | grep jormungandr)
-}
+# nightly-config
+
 
 function check-gb() {
     echo "${GENESIS_BLOCK_HASH}"
